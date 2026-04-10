@@ -241,6 +241,60 @@
             transform: translateY(0);
         }
 
+        /* --- SOCIAL LOGIN BUTTONS --- */
+        .social-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #999;
+            font-size: 0.85rem;
+        }
+        .social-divider::before,
+        .social-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #ddd;
+        }
+        .social-divider::before { margin-right: 10px; }
+        .social-divider::after { margin-left: 10px; }
+
+        .social-login {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-social {
+            flex: 1;
+            padding: 11px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-social:hover {
+            border-color: #999;
+            background: #f9f9f9;
+            transform: translateY(-2px);
+        }
+
+        .btn-google {
+            color: #ea4335;
+        }
+
+        .btn-github {
+            color: #333;
+        }
+
         .back-link {
             position: absolute;
             top: 20px;
@@ -393,6 +447,17 @@
                     <button type="submit" class="btn-submit">
                         <i class="fa-solid fa-sign-in-alt"></i> Login
                     </button>
+
+                    <div class="social-divider">OR</div>
+
+                    <div class="social-login">
+                        <button type="button" class="btn-social btn-google" onclick="loginWithGoogle(event)">
+                            <i class="fa-brands fa-google"></i> Google
+                        </button>
+                        <button type="button" class="btn-social btn-github" onclick="loginWithGitHub(event)">
+                            <i class="fa-brands fa-github"></i> GitHub
+                        </button>
+                    </div>
                 </form>
 
                 <p style="text-align: center; color: #666; margin-top: 20px; font-size: 0.9rem;">
@@ -541,6 +606,13 @@
                     return;
                 }
                 
+                // Store user data in the correct format
+                const userData = {
+                    email: email,
+                    name: email.split('@')[0],
+                    loginTime: new Date().toISOString()
+                };
+                localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
                 localStorage.setItem('userEmail', email);
                 localStorage.setItem('isLoggedIn', 'true');
                 
@@ -598,6 +670,17 @@
                 return;
             }
 
+            // Store user data in the correct format
+            const userData = {
+                email: email,
+                name: firstName + ' ' + lastName,
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                state: state,
+                signupTime: new Date().toISOString()
+            };
+            localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
             localStorage.setItem('userEmail', email);
             localStorage.setItem('userName', firstName + ' ' + lastName);
             localStorage.setItem('isLoggedIn', 'true');
@@ -608,6 +691,52 @@
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 1500);
+        }
+
+        // Google Login
+        function loginWithGoogle(event) {
+            event.preventDefault();
+            
+            // Simulate Google OAuth (in production, integrate real Google OAuth)
+            const userData = {
+                email: 'user@gmail.com',
+                name: 'Google User',
+                provider: 'google',
+                loginTime: new Date().toISOString(),
+                avatar: 'https://via.placeholder.com/40'
+            };
+
+            localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
+            localStorage.setItem('userEmail', userData.email);
+            localStorage.setItem('isLoggedIn', 'true');
+
+            alert('Google login successful! Redirecting...');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        // GitHub Login
+        function loginWithGitHub(event) {
+            event.preventDefault();
+
+            // Simulate GitHub OAuth (in production, integrate real GitHub OAuth)
+            const userData = {
+                email: 'user@github.com',
+                name: 'GitHub User',
+                provider: 'github',
+                loginTime: new Date().toISOString(),
+                avatar: 'https://via.placeholder.com/40'
+            };
+
+            localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
+            localStorage.setItem('userEmail', userData.email);
+            localStorage.setItem('isLoggedIn', 'true');
+
+            alert('GitHub login successful! Redirecting...');
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
         }
     </script>
 

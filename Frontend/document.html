@@ -273,8 +273,20 @@
                 <option value="ta">தமிழ் (Tamil)</option>
                 <option value="gu">ગુજરાતી (Gujarati)</option>
             </select>
-            <button class="btn-login" onclick="window.location.href='auth.html'">Login</button>
-            <button class="btn-signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
+            <div id="auth-buttons" class="auth-buttons">
+                <button class="btn-login" id="btn-login" onclick="window.location.href='auth.html'">Login</button>
+                <button class="btn-signup" id="btn-signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
+            </div>
+            <div id="user-menu" class="user-menu" style="display: none;">
+                <button class="btn-user-profile" id="user-profile-btn"><i class="fa-solid fa-user-circle"></i> <span id="user-name">User</span> <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <a href="#" onclick="viewProfile(event)"><i class="fa-solid fa-id-card"></i> My Profile</a>
+                    <a href="#" onclick="viewSavedDocs(event)"><i class="fa-solid fa-bookmark"></i> Saved Documents</a>
+                    <a href="#" onclick="viewHistory(event)"><i class="fa-solid fa-history"></i> History</a>
+                    <hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">
+                    <a href="#" onclick="logout(event)"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -1143,6 +1155,69 @@ Name: ________________
 
         // Initial render
         renderDocuments(documents);
+
+        // Authentication functions
+        function checkAuthStatus() {
+            const user = JSON.parse(localStorage.getItem('nagrikNetraUser') || 'null');
+            const authButtons = document.getElementById('auth-buttons');
+            const userMenu = document.getElementById('user-menu');
+            const userName = document.getElementById('user-name');
+            
+            if (user && user.email) {
+                if (authButtons) authButtons.style.display = 'none';
+                if (userMenu) userMenu.style.display = 'block';
+                if (userName) userName.textContent = user.name || user.email.split('@')[0];
+            } else {
+                if (authButtons) authButtons.style.display = 'flex';
+                if (userMenu) userMenu.style.display = 'none';
+            }
+        }
+
+        function toggleUserMenu() {
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            if (dropdownMenu) dropdownMenu.classList.toggle('show');
+        }
+
+        window.logout = function(event) {
+            event.preventDefault();
+            localStorage.removeItem('nagrikNetraUser');
+            alert('You have been logged out successfully!');
+            checkAuthStatus();
+            window.location.href = 'index.html';
+        }
+
+        window.viewProfile = function(event) {
+            event.preventDefault();
+            alert('Profile page coming soon!');
+            toggleUserMenu();
+        }
+
+        window.viewSavedDocs = function(event) {
+            event.preventDefault();
+            alert('Saved documents page coming soon!');
+            toggleUserMenu();
+        }
+
+        window.viewHistory = function(event) {
+            event.preventDefault();
+            alert('History page coming soon!');
+            toggleUserMenu();
+        }
+
+        const userProfileBtn = document.getElementById('user-profile-btn');
+        if (userProfileBtn) userProfileBtn.addEventListener('click', toggleUserMenu);
+
+        document.addEventListener('click', function(event) {
+            const userMenu = document.getElementById('user-menu');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            if (userMenu && !userMenu.contains(event.target)) {
+                if (dropdownMenu && dropdownMenu.classList.contains('show')) {
+                    dropdownMenu.classList.remove('show');
+                }
+            }
+        });
+
+        checkAuthStatus();
     </script>
 </body>
 </html>

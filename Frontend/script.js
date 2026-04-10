@@ -170,23 +170,84 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => { alert("Document sent to AI!"); analyzeBtn.innerHTML = originalHTML; }, 1500);
     });
 
-    // --- 4. Login & Sign Up Button Navigation ---
-    const loginBtn = document.querySelector('.btn-login');
-    const signupBtn = document.querySelector('.btn-signup');
-
-    if (loginBtn && !loginBtn.getAttribute('onclick')) {
-        loginBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'auth.html';
-        });
+    // --- 4. Authentication & User Menu Logic ---
+    
+    // Check if user is logged in
+    function checkAuthStatus() {
+        const user = JSON.parse(localStorage.getItem('nagrikNetraUser') || 'null');
+        const authButtons = document.getElementById('auth-buttons');
+        const userMenu = document.getElementById('user-menu');
+        const userName = document.getElementById('user-name');
+        
+        if (user && user.email) {
+            // User is logged in
+            if (authButtons) authButtons.style.display = 'none';
+            if (userMenu) userMenu.style.display = 'block';
+            if (userName) userName.textContent = user.name || user.email.split('@')[0];
+        } else {
+            // User not logged in
+            if (authButtons) authButtons.style.display = 'flex';
+            if (userMenu) userMenu.style.display = 'none';
+        }
     }
 
-    if (signupBtn && !signupBtn.getAttribute('onclick')) {
-        signupBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'auth.html?form=signup';
-        });
+    // Toggle user menu dropdown
+    function toggleUserMenu() {
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        if (dropdownMenu) {
+            dropdownMenu.classList.toggle('show');
+        }
     }
+
+    // Logout function
+    window.logout = function(event) {
+        event.preventDefault();
+        localStorage.removeItem('nagrikNetraUser');
+        alert('You have been logged out successfully!');
+        checkAuthStatus();
+        window.location.href = 'index.html';
+    }
+
+    // Profile menu functions
+    window.viewProfile = function(event) {
+        event.preventDefault();
+        alert('Profile page coming soon!');
+        toggleUserMenu();
+    }
+
+    window.viewSavedDocs = function(event) {
+        event.preventDefault();
+        alert('Saved documents page coming soon!');
+        toggleUserMenu();
+    }
+
+    window.viewHistory = function(event) {
+        event.preventDefault();
+        alert('History page coming soon!');
+        toggleUserMenu();
+    }
+
+    // Add event listener for user profile button
+    const userProfileBtn = document.getElementById('user-profile-btn');
+    if (userProfileBtn) {
+        userProfileBtn.addEventListener('click', toggleUserMenu);
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const userMenu = document.getElementById('user-menu');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        const userProfileBtn = document.getElementById('user-profile-btn');
+        
+        if (userMenu && !userMenu.contains(event.target)) {
+            if (dropdownMenu && dropdownMenu.classList.contains('show')) {
+                dropdownMenu.classList.remove('show');
+            }
+        }
+    });
+
+    // Check auth status on page load
+    checkAuthStatus();
 
     // Handle auth.html form parameter
     if (window.location.pathname.includes('auth.html')) {

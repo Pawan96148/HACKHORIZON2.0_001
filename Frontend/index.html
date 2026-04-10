@@ -36,8 +36,20 @@
                 <option value="ta">தமிழ் (Tamil)</option>
                 <option value="gu">ગુજરાતી (Gujarati)</option>
             </select>
-            <button class="btn-login" data-i18n="login" onclick="window.location.href='auth.html'">Login</button>
-            <button class="btn-signup" data-i18n="signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
+            <div id="auth-buttons" class="auth-buttons">
+                <button class="btn-login" id="btn-login" data-i18n="login" onclick="window.location.href='auth.html'">Login</button>
+                <button class="btn-signup" id="btn-signup" data-i18n="signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
+            </div>
+            <div id="user-menu" class="user-menu" style="display: none;">
+                <button class="btn-user-profile" id="user-profile-btn"><i class="fa-solid fa-user-circle"></i> <span id="user-name">User</span> <i class="fa-solid fa-chevron-down"></i></button>
+                <div class="dropdown-menu" id="dropdown-menu">
+                    <a href="#" onclick="viewProfile(event)"><i class="fa-solid fa-id-card"></i> My Profile</a>
+                    <a href="#" onclick="viewSavedDocs(event)"><i class="fa-solid fa-bookmark"></i> Saved Documents</a>
+                    <a href="#" onclick="viewHistory(event)"><i class="fa-solid fa-history"></i> History</a>
+                    <hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">
+                    <a href="#" onclick="logout(event)"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -109,6 +121,79 @@
             <p data-i18n="feat4_desc">Available in multiple Indian languages.</p>
         </div>
     </section>
+
+    <section class="stats-section">
+        <div class="stat-card">
+            <h2 class="stat-number">50+</h2>
+            <p>Legal Documents</p>
+        </div>
+        <div class="stat-card">
+            <h2 class="stat-number">6</h2>
+            <p>Indian Languages</p>
+        </div>
+        <div class="stat-card">
+            <h2 class="stat-number">28</h2>
+            <p>Complete Guides</p>
+        </div>
+        <div class="stat-card">
+            <h2 class="stat-number">100%</h2>
+            <p>Free Access</p>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Know Your Rights?</h2>
+            <p>Start exploring legal guidance and documents tailored for Indian citizens</p>
+            <div class="cta-buttons">
+                <button class="btn-cta primary" onclick="window.location.href='legalGuidance.html'">
+                    <i class="fa-solid fa-book"></i> Explore Legal Guidance
+                </button>
+                <button class="btn-cta secondary" onclick="window.location.href='document.html'">
+                    <i class="fa-solid fa-file-pdf"></i> Browse Documents
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fa-solid fa-scale-balanced"></i> NagrikNetra</h4>
+                <p data-i18n="tagline">Your Guide. Your Rights. Your Voice.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="legalGuidance.html">Legal Guidance</a></li>
+                    <li><a href="document.html">Documents</a></li>
+                    <li><a href="rti.html">RTI Filing</a></li>
+                    <li><a href="#">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 NagrikNetra. All rights reserved. | Made with <i class="fa-solid fa-heart"></i> for Indian Citizens</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
