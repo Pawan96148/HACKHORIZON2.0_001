@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NagrikNetra - Analysis Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray">
+    <nav class="navbar">
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h1 style="font-size: 20px;">NagrikNetra</h1>
+        </div>
+        <button class="btn-secondary" onclick="window.location.href='index.html'">New Scan</button>
+    </nav>
+
+    <main class="dashboard-grid">
+        <section class="card full-width">
+            <h2 data-i18n="final_summary">🏁 Final Summary</h2>
+            <p><strong>Document Detected:</strong> Property Tax Assessment Notice.</p>
+            <p><strong>Action Needed:</strong> You must calculate your annual value and pay the tax before <strong>May 30, 2026</strong> to avoid a 10% penalty.</p>
+        </section>
+
+        <section class="card">
+            <h2 data-i18n="step_tracker">✅ Step Tracker</h2>
+            <div class="timeline">
+                <div class="timeline-item done">
+                    <div class="dot"><i class="fa-solid fa-check"></i></div>
+                    <div class="content"><h4>Document Uploaded</h4><p>Your file has been processed.</p></div>
+                </div>
+                <div class="timeline-item current">
+                    <div class="dot">2</div>
+                    <div class="content"><h4>Self-Assessment</h4><p>Calculate your property area.</p></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="dot">3</div>
+                    <div class="content"><h4>Online Payment</h4><p>Submit via municipal portal.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 data-i18n="flow_view">📊 Flowchart & Decision Logic</h2>
+            <div class="flow-container">
+                <div class="node">Start Process</div>
+                <div class="arrow">↓</div>
+                <div class="node decision">
+                    Is the property commercial?
+                    <div class="logic-btns">
+                        <button class="logic-btn yes">Yes</button>
+                        <button class="logic-btn no">No</button>
+                    </div>
+                </div>
+                <div class="arrow">↓</div>
+                <div class="node">Apply Rate (6% of ARV)</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

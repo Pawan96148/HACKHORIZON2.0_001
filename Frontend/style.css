@@ -25,27 +25,39 @@ body { background-color: #f8fafc; color: #1e293b; }
 .tag { background: #eff6ff; color: #1d4ed8; padding: 8px 15px; border-radius: 20px; font-size: 13px; cursor: pointer; }
 .tag:hover { background: #dbeafe; }
 
-/* --- HYBRID BOX STYLES --- */
-.upload-box-container { flex: 1; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+/* --- THE UPLOAD BOX (Now with Background Image) --- */
+.upload-box-container { 
+    flex: 1; 
+    padding: 25px; 
+    border-radius: 15px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+    border: 1px solid #e2e8f0; 
+    
+    /* ADDED BACKGROUND IMAGE STYLES HERE */
+    background-image: url('im.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Optional: Adds a slight white overlay so text remains readable over complex images */
+    background-color: rgba(255, 255, 255, 0.85);
+    background-blend-mode: overlay;
+}
 
-.upload-options { text-align: center; border: 2px dashed #cbd5e1; border-radius: 10px; padding: 40px 20px; }
-.upload-options i.fa-file-contract { font-size: 50px; color: #3b82f6; margin-bottom: 15px; }
-.upload-options h3 { font-size: 20px; margin-bottom: 5px; }
-.upload-options p { font-size: 14px; color: #64748b; margin-bottom: 20px; }
-.file-name { font-weight: 700; color: #16a34a; margin-top: 15px; font-size: 14px; }
-
+.upload-options { text-align: center; border: 2px dashed #94a3b8; border-radius: 10px; padding: 40px 20px; background: rgba(255,255,255,0.4); }
+.upload-options i.fa-file-contract { font-size: 50px; color: #1d4ed8; margin-bottom: 15px; }
+.upload-options h3 { font-size: 20px; margin-bottom: 5px; color: #0f172a; font-weight: 800;}
+.upload-options p { font-size: 14px; color: #334155; margin-bottom: 20px; font-weight: 500;}
+.file-name { font-weight: 700; color: #16a34a; margin-top: 15px; font-size: 14px; background: white; padding: 5px; border-radius: 5px;}
 .action-buttons { display: flex; gap: 10px; justify-content: center; }
 
-/* Camera UI Styles */
 .camera-ui { display: flex; flex-direction: column; gap: 10px; }
 #camera-stream, #snapshot-canvas { width: 100%; height: 250px; background: #0f172a; border-radius: 10px; object-fit: cover; }
 .camera-controls { display: flex; gap: 10px; justify-content: center; }
 
-/* Buttons */
 .btn-primary { background: #1e293b; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; }
 .btn-primary:hover { background: #334155; }
-.btn-secondary { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; flex: 1; transition: 0.2s;}
-.btn-secondary:hover { background: #e2e8f0; }
+.btn-secondary { background: #ffffff; color: #1e293b; border: 2px solid #cbd5e1; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 700; flex: 1; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
+.btn-secondary:hover { background: #f1f5f9; border-color: #94a3b8;}
 .btn-success { background: #16a34a; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; flex: 1;}
 .btn-danger { background: #ef4444; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; flex: 1;}
 
@@ -54,9 +66,3 @@ body { background-color: #f8fafc; color: #1e293b; }
 .feature-card i { font-size: 30px; color: #334155; margin-bottom: 10px; }
 .feature-card h3 { font-size: 16px; margin-bottom: 5px; }
 .feature-card p { font-size: 12px; color: #64748b; }
-
-.how-it-works { text-align: center; padding: 60px 40px; }
-.section-title { margin-bottom: 30px; font-size: 24px; }
-.steps-container { display: flex; justify-content: center; gap: 20px; }
-.step-card { background: white; padding: 15px 20px; border-radius: 10px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-width: 200px; text-align: left; }
-.step-number { background: #2563eb; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; }
