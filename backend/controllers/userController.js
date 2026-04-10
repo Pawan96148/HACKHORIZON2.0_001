@@ -2,35 +2,92 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// Signup
-exports.registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  const userExists = await User.findOne({ email });
-  if (userExists) return res.status(400).json({ msg: "User exists" });
-
-  const hashedPass = await bcrypt.hash(password, 10);
-
-  const user = await User.create({
-    name,
-    email,
-    password: hashedPass,
+// 🔐 Generate Token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
   });
-
-  res.json(user);
 };
 
-// Login
+// ✅ Signup
+exports.registerUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ msg: "All fields are required" });
+    }
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ msg: "User already exists" });
+    }
+
+    const hashedPass = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPass,
+    });
+
+    res.status(201).json({
+      msg: "User registered successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+      token: generateToken(user._id),
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+};
+
+// ✅ Login
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ msg: "No user" });
+    if (!email || !password) {
+      return res.status(400).json({ msg: "Email & Password required" });
+    }
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ msg: "Wrong password" });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ msg: "User not found" });
+    }
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Invalid password" });
+    }
 
-  res.json({ token });
+    res.json({
+      msg: "Login successful",
+      token: generateToken(user._id),
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+};
+
+// ✅ Get Profile (Protected)
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+
+    res.json({
+      msg: "User profile fetched",
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Error fetching profile" });
+  }
 };
