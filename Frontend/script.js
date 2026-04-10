@@ -169,4 +169,33 @@ document.addEventListener("DOMContentLoaded", () => {
         analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
         setTimeout(() => { alert("Document sent to AI!"); analyzeBtn.innerHTML = originalHTML; }, 1500);
     });
+
+    // --- 4. Login & Sign Up Button Navigation ---
+    const loginBtn = document.querySelector('.btn-login');
+    const signupBtn = document.querySelector('.btn-signup');
+
+    if (loginBtn && !loginBtn.getAttribute('onclick')) {
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'auth.html';
+        });
+    }
+
+    if (signupBtn && !signupBtn.getAttribute('onclick')) {
+        signupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = 'auth.html?form=signup';
+        });
+    }
+
+    // Handle auth.html form parameter
+    if (window.location.pathname.includes('auth.html')) {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('form') === 'signup') {
+            setTimeout(() => {
+                const signupFormBtn = document.querySelectorAll('.toggle-btn')[1];
+                if (signupFormBtn) signupFormBtn.click();
+            }, 100);
+        }
+    }
 });

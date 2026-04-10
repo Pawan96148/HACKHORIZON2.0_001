@@ -36,8 +36,8 @@
                 <option value="ta">தமிழ் (Tamil)</option>
                 <option value="gu">ગુજરાતી (Gujarati)</option>
             </select>
-            <button class="btn-login" data-i18n="login">Login</button>
-            <button class="btn-signup" data-i18n="signup">Sign Up</button>
+            <button class="btn-login" data-i18n="login" onclick="window.location.href='auth.html'">Login</button>
+            <button class="btn-signup" data-i18n="signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
         </div>
     </nav>
 
@@ -50,11 +50,13 @@
                 <div class="suggestion-tags">
                     <button class="tag">Land Record</button>
                     <a href="rti.html" class="tag" style="text-decoration: none;">RTI Filing</a>
-                    <button class="tag">Legal Notice</button>
+                    <a href="legalGuidance.html" class="tag" style="text-decoration: none;">Legal Notice</a>
                 </div>
             </div>
 
             <div class="upload-box-container" id="upload-scan-box">
+                <input type="file" id="file-input" accept="image/*,.pdf" style="display: none;">
+                
                 <div class="upload-options" id="upload-options">
                     <i class="fa-solid fa-file-contract"></i>
                     <h3 data-i18n="upload_title">Upload or Scan</h3>

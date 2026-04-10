@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Guidance - NagrikNetra</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .legal-section { max-width: 1100px; margin: 0 auto; padding: 40px; }
+        .legal-header { text-align: center; margin-bottom: 50px; }
+        .legal-header h2 { font-size: 35px; margin-bottom: 10px; color: #1e293b; }
+        .legal-header p { font-size: 16px; color: #475569; }
+
+        .guidance-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        
+        .guidance-card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 30px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+            border-left: 5px solid #1d4ed8;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .guidance-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .guidance-card i { font-size: 35px; color: #1d4ed8; margin-bottom: 15px; }
+        .guidance-card h3 { font-size: 20px; margin-bottom: 10px; color: #1e293b; }
+        .guidance-card p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 15px; }
+        .learn-more-btn { color: #1d4ed8; font-weight: 600; cursor: pointer; text-decoration: none; }
+        .learn-more-btn:hover { text-decoration: underline; }
+
+        .detailed-section { background: #f0f4f8; padding: 40px; border-radius: 12px; margin-bottom: 40px; }
+        .detailed-section h3 { color: #1e293b; font-size: 22px; margin-bottom: 15px; }
+        .detailed-section p { color: #475569; line-height: 1.8; margin-bottom: 15px; }
+
+        .steps-list { 
+            background: white; 
+            border-radius: 10px; 
+            padding: 20px; 
+            margin-top: 15px;
+            border-left: 4px solid #16a34a;
+        }
+        .step { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0; }
+        .step:last-child { border-bottom: none; }
+        .step-number { 
+            background: #1d4ed8; 
+            color: white; 
+            width: 35px; 
+            height: 35px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .step-content h4 { color: #1e293b; margin-bottom: 5px; font-weight: 600; }
+        .step-content p { color: #64748b; font-size: 14px; }
+
+        .faq-section { margin-top: 40px; }
+        .faq-item { background: white; border-radius: 8px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .faq-question { font-weight: 600; color: #1e293b; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-answer { 
+            color: #64748b; 
+            margin-top: 15px; 
+            display: none; 
+            line-height: 1.7;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .faq-answer.active { display: block; }
+        .faq-toggle { color: #1d4ed8; font-weight: bold; }
+
+        .contact-section { 
+            background: linear-gradient(135deg, #1e293b, #334155); 
+            color: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            text-align: center;
+            margin-top: 40px;
+        }
+        .contact-section h3 { font-size: 24px; margin-bottom: 15px; }
+        .contact-section p { margin-bottom: 20px; font-size: 16px; }
+        .contact-btn { background: #1d4ed8; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+        .contact-btn:hover { background: #1e40af; }
+
+        .back-link { margin-bottom: 20px; }
+        .back-link a { color: #1d4ed8; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .back-link a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <div class="logo-text">
+                <h1>NagrikNetra</h1>
+                <p data-i18n="tagline">Your Guide. Your Rights. Your Voice.</p>
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav_home">Home</a>
+            <a href="legalGuidance.html" data-i18n="nav_guidance">Legal Guidance</a>
+            <a href="document.html" data-i18n="nav_docs">Documents</a>
+            <a href="#" data-i18n="nav_ask">Ask NagrikNetra</a>
+        </div>
+
+        <div class="nav-buttons">
+            <select id="language-selector" class="btn-language" style="outline: none; cursor: pointer;">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="bn">বাংলা (Bengali)</option>
+                <option value="te">తెలుగు (Telugu)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+            </select>
+            <button class="btn-login" onclick="window.location.href='auth.html'">Login</button>
+            <button class="btn-signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
+        </div>
+    </nav>
+
+    <section class="legal-section">
+        <div class="back-link">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+
+        <div class="legal-header">
+            <h2>Legal Guidance & Rights</h2>
+            <p>Understand your fundamental rights and legal procedures in simple, easy-to-follow steps</p>
+        </div>
+
+        <div class="guidance-categories">
+            <div class="guidance-card" onclick="toggleDetails('land-details')">
+                <i class="fa-solid fa-map"></i>
+                <h3>Land Record Rights</h3>
+                <p>Access and verify your property documents, understand ownership rights, and file corrections in the land registry.</p>
+                <span class="learn-more-btn">Learn More →</span>
+            </div>
+
+            <div class="guidance-card" onclick="toggleDetails('rti-details')">
+                <i class="fa-solid fa-file-lines"></i>
+                <h3>RTI - Right to Information</h3>
+                <p>File an RTI application to access government records. Know what information you can request and how to file.</p>
+                <span class="learn-more-btn">Learn More →</span>
+            </div>
+
+            <div class="guidance-card" onclick="toggleDetails('notice-details')">
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <h3>Legal Notice</h3>
+                <p>Send a formal legal notice for disputes, breach of contract, or grievances with proper documentation.</p>
+                <span class="learn-more-btn">Learn More →</span>
+            </div>
+
+            <div class="guidance-card" onclick="toggleDetails('complaint-details')">
+                <i class="fa-solid fa-gavel"></i>
+                <h3>File a Complaint</h3>
+                <p>Know where and how to lodge complaints with government agencies, consumer forums, and courts.</p>
+                <span class="learn-more-btn">Learn More →</span>
+            </div>
+
+            <div class="guidance-card" onclick="toggleDetails('consumer-details')">
+                <i class="fa-solid fa-shield"></i>
+                <h3>Consumer Rights</h3>
+                <p>Understand your rights as a consumer and learn how to file complaints against defective products or services.</p>
+                <span class="learn-more-btn">Learn More →</span>
+            </div>
+
+            <div class="guidance-card" onclick="toggleDetails('labour-details')">
+                <i class="fa-solid fa-briefcase"></i>
+                <h3>Labour Rights</h3>
+                <p>Know your rights at workplace, minimum wage, working hours, and how to file complaints with labour boards.</p>
+                <span class="learn-more-btn">Learn More →</span>
+            </div>
+        </div>
+
+        <!-- Land Record Details -->
+        <div id="land-details" class="detailed-section" style="display: none;">
+            <h3><i class="fa-solid fa-map" style="margin-right: 10px; color: #1d4ed8;"></i>Land Record Rights - Complete Guide</h3>
+            <p>Land records are official documents that contain information about your property. Understanding these rights helps you protect your property and resolve disputes.</p>
+
+            <div class="steps-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Check Land Ownership</h4>
+                        <p>Visit your local tehsil office or access online portals to verify current ownership and property details.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Get Property Documents</h4>
+                        <p>Request certified copies of your Khasra, Khatauni, and other documents from the revenue office.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>File Corrections/Mutations</h4>
+                        <p>If there are errors, file a correction application. Mutations are necessary when property ownership changes.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Follow Up & Get Certificate</h4>
+                        <p>Track your application status and collect the final certified documents once approved.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 25px; color: #1e293b;">Important Documents Required:</h4>
+            <p>• Original property deed or sale agreement | • Identity proof | • Address proof | • Affidavit (if required) | • Existing land records</p>
+        </div>
+
+        <!-- RTI Details -->
+        <div id="rti-details" class="detailed-section" style="display: none;">
+            <h3><i class="fa-solid fa-file-lines" style="margin-right: 10px; color: #1d4ed8;"></i>RTI - Right to Information Guide</h3>
+            <p>The Right to Information Act (2005) gives you the right to access information held by the government. This includes documents, decisions, and records.</p>
+
+            <div class="steps-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Identify the Right Authority</h4>
+                        <p>Determine which government department or agency holds the information you need.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Prepare Your RTI Application</h4>
+                        <p>Write a clear application describing exactly what information you want, with relevant details and timeframe.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Submit Application</h4>
+                        <p>Submit in person, by mail, or online with application fee (usually ₹10). Keep proof of submission.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Wait for Response</h4>
+                        <p>Authorities must respond within 30 days. If information cannot be provided, they must explain reasons in writing.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 25px; color: #1e293b;">What You CAN Request:</h4>
+            <p>• Government records and decisions | • Budget and spending details | • Policy information | • Meeting minutes | • Health and safety records</p>
+
+            <h4 style="margin-top: 15px; color: #1e293b;">What You CANNOT Request:</h4>
+            <p>• Personal information of others | • Information affecting national security | • Cabinet papers | • Commercial secrets</p>
+        </div>
+
+        <!-- Legal Notice Details -->
+        <div id="notice-details" class="detailed-section" style="display: none;">
+            <h3><i class="fa-solid fa-envelope-open-text" style="margin-right: 10px; color: #1d4ed8;"></i>Legal Notice - Step-by-Step Guide</h3>
+            <p>A legal notice is a formal communication used to warn someone about potential legal action. It's often the first step before filing a lawsuit.</p>
+
+            <div class="steps-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Document the Issue</h4>
+                        <p>Collect all evidence - emails, messages, agreements, photos, invoices related to the dispute.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Draft the Notice</h4>
+                        <p>Write a clear notice mentioning the facts, the breach, damages suffered, and what action you want taken.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Get Legal Review</h4>
+                        <p>Have a lawyer review your notice to ensure it's legally sound and covers all necessary points.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Serve the Notice</h4>
+                        <p>Send via registered post with acknowledgement, email (with read receipt), or through a process server.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 25px; color: #1e293b;">Notice Should Include:</h4>
+            <p>• Your details and occupation | • Defendant's full name and address | • Facts leading to the dispute | • Legal breach committed | • Losses/damages suffered | • Specific action demanded | • Timeline for response (usually 30 days)</p>
+        </div>
+
+        <!-- File Complaint Details -->
+        <div id="complaint-details" class="detailed-section" style="display: none;">
+            <h3><i class="fa-solid fa-gavel" style="margin-right: 10px; color: #1d4ed8;"></i>How to File a Complaint</h3>
+            <p>Filing a complaint is your right when you face injustice, wrongdoing, or breach of rules by any organization or government agency.</p>
+
+            <div class="steps-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Choose the Right Forum</h4>
+                        <p>Identify whether your complaint should go to police, court, consumer forum, ombudsman, or department-specific body.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Gather Evidence</h4>
+                        <p>Collect all supporting documents, photographs, videos, receipts, communications, and witness statements.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Write Complaint Letter</h4>
+                        <p>Write clearly and concisely mentioning dates, facts, and what resolution you're seeking.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>File & Follow Up</h4>
+                        <p>Submit the complaint in person or online, keep receipts, and follow up regularly for updates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consumer Rights Details -->
+        <div id="consumer-details" class="detailed-section" style="display: none;">
+            <h3><i class="fa-solid fa-shield" style="margin-right: 10px; color: #1d4ed8;"></i>Consumer Rights Protection</h3>
+            <p>As a consumer, you have rights to quality products, fair pricing, accurate information, safety, and grievance redressal.</p>
+
+            <div class="steps-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Right to Safety</h4>
+                        <p>Products must be safe and free from defects. Manufacturer and seller are responsible for product quality.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Right to Information</h4>
+                        <p>You have the right to know product details, expiry date, ingredients, manufacturing date, and price clearly.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Right to Choose</h4>
+                        <p>You can accept or reject any service or product, and the seller cannot force you to buy.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Right to Be Heard</h4>
+                        <p>If wronged, you can file complaint with consumer forums and get compensation for damages.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 25px; color: #1e293b;">Filing Consumer Complaint:</h4>
+            <p>You can file at District Consumer Commission (for claims up to ₹1 crore), State Commission, or National Commission depending on claim value.</p>
+        </div>
+
+        <!-- Labour Rights Details -->
+        <div id="labour-details" class="detailed-section" style="display: none;">
+            <h3><i class="fa-solid fa-briefcase" style="margin-right: 10px; color: #1d4ed8;"></i>Labour Rights & Workplace Protection</h3>
+            <p>Every worker has fundamental rights including fair wages, reasonable working hours, safe working conditions, and protection from exploitation.</p>
+
+            <div class="steps-list">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Fair Wages & Minimum Wage</h4>
+                        <p>You're entitled to minimum wage as per state rules, overtime payment, and timely salary without deductions.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Working Hours & Rest</h4>
+                        <p>Normal working hours shouldn't exceed 8 hours/day and 48 hours/week. You're entitled to weekly rest days and leaves.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Safe Working Conditions</h4>
+                        <p>Employer must provide safe workplace, protective equipment, and insurance coverage for injuries.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>File Labour Complaint</h4>
+                        <p>Approach Labour Department, Labour Commissioner, or file with Industrial Tribunal for disputes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2 style="margin-bottom: 25px; color: #1e293b;">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>What's the difference between RTI and a regular information request?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>RTI is a legal right under the Right to Information Act 2005, where government must respond within 30 days. Regular information requests may not have legal backing and could be ignored. RTI gives you legal recourse if information is not provided.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Can I file an RTI for information about a private company?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>No, RTI applies only to government departments and public authorities. For private companies, you'd need to approach them directly or file a consumer complaint if services are affected.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Do I need a lawyer to file a legal notice?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>While not mandatory, it's recommended to consult a lawyer for legal notices. They ensure the notice is legally sound, includes necessary details, and follows proper procedures for service.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>What should I do if my RTI application is rejected?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You can file a first appeal with the departmental appellate officer within 30 days. If still unsatisfied, file a second appeal with the State Information Commission within 90 days.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>How long does it take to get land records corrected?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Land record correction typically takes 30-90 days depending on complexity and the revenue office's workload. Simple corrections may be faster. Follow up regularly to expedite the process.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>What's the cost to file a consumer complaint?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>There's a nominal filing fee based on the claim amount. For claims up to ₹5 lakhs at District Level, the fee is usually ₹100-₹500. No fee is required for complaints up to ₹1 lakh in some states.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h3>Need Professional Legal Assistance?</h3>
+            <p>While NagrikNetra provides guidance, complex legal matters may require professional consultation.</p>
+            <button class="contact-btn" onclick="alert('Contact feature coming soon! For now, consult a local bar association for lawyer referrals.')">Find a Lawyer</button>
+        </div>
+    </section>
+
+    <script>
+        function toggleDetails(id) {
+            const element = document.getElementById(id);
+            // Close all other details
+            document.querySelectorAll('[id$="-details"]').forEach(el => {
+                if (el.id !== id) el.style.display = 'none';
+            });
+            // Toggle current
+            element.style.display = element.style.display === 'none' ? 'block' : 'none';
+            element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const toggle = element.querySelector('.faq-toggle');
+            
+            // Close other FAQs
+            document.querySelectorAll('.faq-answer').forEach(el => {
+                if (el !== answer) {
+                    el.classList.remove('active');
+                    el.previousElementSibling.querySelector('.faq-toggle').textContent = '+';
+                }
+            });
+
+            // Toggle current
+            answer.classList.toggle('active');
+            toggle.textContent = answer.classList.contains('active') ? '−' : '+';
+        }
+
+        // Language support
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageSelector = document.getElementById('language-selector');
+            if (languageSelector) {
+                const savedLanguage = localStorage.getItem('preferredLanguage');
+                if (savedLanguage) languageSelector.value = savedLanguage;
+            }
+        });
+    </script>
+</body>
+</html>

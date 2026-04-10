@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Templates - NagrikNetra</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .document-section { max-width: 1200px; margin: 0 auto; padding: 40px; }
+        .document-header { text-align: center; margin-bottom: 50px; }
+        .document-header h2 { font-size: 35px; margin-bottom: 10px; color: #1e293b; }
+        .document-header p { font-size: 16px; color: #475569; }
+
+        .search-bar { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 40px; 
+            justify-content: center;
+        }
+        .search-bar input { 
+            width: 100%; 
+            max-width: 500px; 
+            padding: 12px 18px; 
+            border: 2px solid #cbd5e1; 
+            border-radius: 8px; 
+            font-size: 14px;
+        }
+        .search-bar input:focus { 
+            outline: none; 
+            border-color: #1d4ed8;
+            box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+        }
+
+        .category-tabs { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 30px; 
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .category-btn { 
+            padding: 10px 20px; 
+            border: 2px solid #cbd5e1; 
+            background: white; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+        .category-btn.active { 
+            background: #1d4ed8; 
+            color: white; 
+            border-color: #1d4ed8;
+        }
+        .category-btn:hover { 
+            border-color: #1d4ed8; 
+            color: #1d4ed8;
+        }
+
+        .documents-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+            margin-bottom: 50px;
+        }
+
+        .document-card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 25px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+            border-top: 4px solid #1d4ed8;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .document-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        .document-card i { 
+            font-size: 40px; 
+            color: #1d4ed8; 
+            margin-bottom: 15px;
+        }
+        .document-card h3 { 
+            font-size: 18px; 
+            margin-bottom: 10px; 
+            color: #1e293b;
+        }
+        .document-card .description { 
+            font-size: 13px; 
+            color: #64748b; 
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .document-card .tags { 
+            display: flex; 
+            gap: 5px; 
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .document-card .tag-item { 
+            background: #eff6ff; 
+            color: #1d4ed8; 
+            padding: 4px 10px; 
+            border-radius: 12px; 
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .document-actions { 
+            display: flex; 
+            gap: 10px;
+        }
+        .btn-view { 
+            flex: 1; 
+            background: #1d4ed8; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .btn-view:hover { background: #1e40af; }
+        .btn-download { 
+            background: #16a34a; 
+            color: white; 
+            border: none; 
+            padding: 8px 12px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .btn-download:hover { background: #15803d; }
+
+        .document-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background: rgba(0,0,0,0.6); 
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .document-modal.active { display: flex; }
+        .modal-content { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 40px; 
+            max-width: 700px; 
+            max-height: 90vh; 
+            overflow-y: auto;
+            width: 100%;
+        }
+        .modal-close { 
+            float: right; 
+            font-size: 28px; 
+            cursor: pointer; 
+            color: #64748b;
+        }
+        .modal-close:hover { color: #1e293b; }
+        .modal-title { 
+            font-size: 26px; 
+            color: #1e293b; 
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .usage-steps { 
+            background: #f0f4f8; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px 0;
+        }
+        .usage-steps h4 { 
+            color: #1e293b; 
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .usage-steps ol { 
+            color: #475569; 
+            line-height: 1.8;
+            margin-left: 20px;
+        }
+        .usage-steps li { margin-bottom: 10px; }
+
+        .checklist { 
+            background: white; 
+            border: 2px solid #e2e8f0; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 20px 0;
+        }
+        .checklist h4 { 
+            color: #1e293b; 
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        .checklist-item { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #475569;
+        }
+        .checklist-item i { 
+            color: #16a34a; 
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .template-preview { 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .back-link { margin-bottom: 20px; }
+        .back-link a { color: #1d4ed8; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .back-link a:hover { text-decoration: underline; }
+
+        .empty-state { 
+            text-align: center; 
+            padding: 60px 20px; 
+            color: #64748b;
+        }
+        .empty-state i { 
+            font-size: 50px; 
+            color: #cbd5e1; 
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            <div class="logo-text">
+                <h1>NagrikNetra</h1>
+                <p data-i18n="tagline">Your Guide. Your Rights. Your Voice.</p>
+            </div>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html" data-i18n="nav_home">Home</a>
+            <a href="legalGuidance.html" data-i18n="nav_guidance">Legal Guidance</a>
+            <a href="document.html" data-i18n="nav_docs">Documents</a>
+            <a href="#" data-i18n="nav_ask">Ask NagrikNetra</a>
+        </div>
+
+        <div class="nav-buttons">
+            <select id="language-selector" class="btn-language" style="outline: none; cursor: pointer;">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="bn">বাংলা (Bengali)</option>
+                <option value="te">తెలుగు (Telugu)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+            </select>
+            <button class="btn-login" onclick="window.location.href='auth.html'">Login</button>
+            <button class="btn-signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
+        </div>
+    </nav>
+
+    <section class="document-section">
+        <div class="back-link">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+
+        <div class="document-header">
+            <h2>Document Templates & Guides</h2>
+            <p>Download ready-to-use templates and learn how to fill them correctly</p>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search documents... (e.g., Legal Notice, RTI)">
+        </div>
+
+        <div class="category-tabs">
+            <button class="category-btn active" onclick="filterCategory('all')">All Documents</button>
+            <button class="category-btn" onclick="filterCategory('legal')">Legal Documents</button>
+            <button class="category-btn" onclick="filterCategory('rti')">RTI Related</button>
+            <button class="category-btn" onclick="filterCategory('property')">Property & Land</button>
+            <button class="category-btn" onclick="filterCategory('complaint')">Complaints</button>
+            <button class="category-btn" onclick="filterCategory('consumer')">Consumer</button>
+        </div>
+
+        <div class="documents-grid" id="documentsGrid">
+            <!-- Documents will be inserted here by JavaScript -->
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <i class="fa-solid fa-file-circle-question"></i>
+            <h3>No documents found</h3>
+            <p>Try a different search term or category</p>
+        </div>
+    </section>
+
+    <!-- Document Detail Modal -->
+    <div class="document-modal" id="documentModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Document database
+        const documents = [
+            {
+                id: 1,
+                title: "Legal Notice Template",
+                icon: "fa-envelope-open-text",
+                description: "Formal notice to warn about breach of contract or dispute before legal action",
+                category: "legal",
+                tags: ["Legal", "Contract", "Dispute"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-envelope-open-text"></i> Legal Notice Template</h3>
+                    <p>A legal notice is a formal written communication sent before filing a lawsuit. Use this template to create your own.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>How to Use This Template:</h4>
+                        <ol>
+                            <li>Fill in your name, address, and occupation</li>
+                            <li>Clearly mention the recipient's details</li>
+                            <li>State facts leading to the dispute chronologically</li>
+                            <li>Describe the legal breach committed</li>
+                            <li>Calculate and mention losses suffered</li>
+                            <li>Specify what action is demanded (payment, compliance, etc.)</li>
+                            <li>Give 7-30 days timeframe for response</li>
+                            <li>Have it reviewed by a lawyer before sending</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+[Your Name]
+[Your Address]
+[Date]
+
+TO,
+[Recipient Name]
+[Recipient Address]
+[Recipient Contact]
+
+NOTICE OF [BREACH OF CONTRACT / DISPUTE / DEFAMATION - Choose as applicable]
+
+Dear Sir/Madam,
+
+You are hereby given notice that you have committed breach of contract/violated legal rights as detailed below:
+
+1. FACTS OF THE CASE:
+   [Chronologically describe what happened, dates, and circumstances]
+
+2. BREACH COMMITTED:
+   [Clearly state what legal obligation was breached]
+
+3. DAMAGES SUFFERED:
+   [Quantify the loss - financial or otherwise]
+   Amount: Rs. ________
+
+4. DEMAND:
+   We demand that you [specify action - pay amount/stop practice/comply with agreement] within 30 days from the receipt of this notice, failing which we shall initiate legal proceedings against you without further notice.
+
+Yours faithfully,
+
+[Your Signature]
+[Your Name]
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Before Sending - Checklist:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Have a lawyer review it</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Send via registered post with A/D</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Keep proof of sending</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Mention clear deadline for action</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Be specific about damages claimed</div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "RTI Application Form",
+                icon: "fa-file-lines",
+                description: "Right to Information Act application to request government records and documents",
+                category: "rti",
+                tags: ["RTI", "Government", "Information"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-file-lines"></i> RTI Application Form</h3>
+                    <p>File an RTI application to access government information. The authority must respond within 30 days.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>Step-by-Step Guide:</h4>
+                        <ol>
+                            <li>Identify the correct government department and address</li>
+                            <li>Write your application clearly mentioning what information you need</li>
+                            <li>Be specific about dates, file numbers, or relevant details</li>
+                            <li>Mention the purpose of information (optional but helpful)</li>
+                            <li>Pay the application fee (usually ₹10)</li>
+                            <li>Submit in person or by registered post with A/D</li>
+                            <li>Keep proof of submission and follow up after 30 days</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+RTI APPLICATION FORM
+
+[Your Name]
+[Your Address]
+[Contact Number]
+[Email]
+
+To,
+The Public Information Officer,
+[Department Name]
+[Department Address]
+[City - PIN Code]
+
+Date: ___________
+
+Subject: RTI Application under Right to Information Act, 2005
+
+Dear Sir/Madam,
+
+I am submitting this application under the Right to Information Act, 2005 to request the following information:
+
+INFORMATION REQUESTED:
+[Clearly describe what information you're seeking]
+[Include relevant file numbers, dates, or details]
+
+PURPOSE:
+[Optional - explain why this information is needed]
+
+FORMAT PREFERRED:
+[ ] Copy of documents
+[ ] Inspection of records
+[ ] Certified copy
+
+I enclose herewith:
+- Prescribed application fee of Rs. 10 (by DD/Receipt)
+- Identity proof copy
+- Address proof copy
+
+Kindly provide the requested information within 30 days as per RTI Act.
+
+Yours faithfully,
+
+[Your Signature]
+[Your Name]
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Important Tips:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Be specific about what you want</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Submit to correct authority</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Keep proof of submission</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Note deadline: 30 days</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Can appeal if rejected</div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "Consumer Complaint Form",
+                icon: "fa-shield",
+                description: "File complaint against defective products or unfair business practices with consumer commission",
+                category: "consumer",
+                tags: ["Consumer", "Complaint", "Protection"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-shield"></i> Consumer Complaint Form</h3>
+                    <p>Use this form to lodge a complaint against defective products or services with the Consumer Commission.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>How to File:</h4>
+                        <ol>
+                            <li>Identify the amount of claim</li>
+                            <li>Choose correct consumer forum (District/State/National)</li>
+                            <li>Prepare detailed complaint with all evidence</li>
+                            <li>Include photographs, bills, receipts, and correspondence</li>
+                            <li>Mention compensation demanded</li>
+                            <li>File with filing fee (based on claim amount)</li>
+                            <li>Keep copies of everything submitted</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+CONSUMER COMPLAINT FORM
+
+DETAILS OF COMPLAINANT:
+Name: ________________
+Address: ________________
+Contact: ________________
+Email: ________________
+
+DETAILS OF OPPOSITE PARTY (Seller/Service Provider):
+Name: ________________
+Address: ________________
+Contact: ________________
+
+COMPLAINT DETAILS:
+Product/Service: ________________
+Date of Purchase: ________________
+Amount Paid: Rs. ________________
+Date of Complaint: ________________
+
+NATURE OF DEFECT/UNFAIR PRACTICE:
+[Describe in detail what went wrong]
+
+ATTEMPTS AT RESOLUTION:
+[Mention what you tried before filing this complaint]
+
+COMPENSATION CLAIMED: Rs. ________________
+
+SUPPORTING DOCUMENTS:
+[ ] Purchase bill/receipt
+[ ] Photographs/Video
+[ ] Written correspondence
+[ ] Expert report (if any)
+[ ] Other: ________________
+
+                    </div>
+
+                    <div class="checklist">
+                        <h4>What to Attach:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Original bills and receipts</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Photographs/videos of defect</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Correspondence with business</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Warranty card (if applicable)</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Identity and address proof</div>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "Land Record Mutation Form",
+                icon: "fa-map",
+                description: "Apply for property ownership transfer and land record updates in revenue office",
+                category: "property",
+                tags: ["Property", "Land", "Mutation"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-map"></i> Land Record Mutation Form</h3>
+                    <p>File mutation to update land records when property ownership changes due to sale, inheritance, or gift.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>Mutation Process:</h4>
+                        <ol>
+                            <li>Get application form from Tehsil/Revenue office</li>
+                            <li>Fill in old and new owner details</li>
+                            <li>Attach supporting documents (deed, gift letter, etc.)</li>
+                            <li>Pay mutation fee (varies by state and property value)</li>
+                            <li>Submit to revenue authority</li>
+                            <li>Attend verification hearing if called</li>
+                            <li>Collect updated land record certificate</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+MUTATION FORM
+
+Tehsil: ________________  District: ________________
+Survey Number/Khasra: ________________
+Village: ________________
+Area of Land: ________________
+
+CURRENT OWNER DETAILS:
+Name: ________________
+Father's Name: ________________
+Address: ________________
+Contact: ________________
+
+NEW OWNER DETAILS:
+Name: ________________
+Father's Name: ________________
+Address: ________________
+Contact: ________________
+
+REASON FOR MUTATION:
+[ ] Sale
+[ ] Inheritance
+[ ] Gift
+[ ] Partition
+[ ] Other: ________________
+
+SUPPORTING DOCUMENTS ENCLOSED:
+[ ] Sale deed/Gift deed/Will
+[ ] Khatauni/Khasra
+[ ] Identity proof
+[ ] Address proof
+[ ] Tax receipt
+[ ] Possession certificate
+
+APPLICANT'S DECLARATION:
+I hereby declare that the above information is true to the best of my knowledge.
+
+Date: ________________
+Signature: ________________
+Name: ________________
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Required Documents:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Property deed/Sale agreement</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Current land record (Khatauni)</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Identity proof of both parties</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Tax payment receipt</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Recent property tax documents</div>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "Complaint to Police (FIR Format)",
+                icon: "fa-gavel",
+                description: "File a formal complaint with police department for crimes and criminal acts",
+                category: "complaint",
+                tags: ["Police", "Crime", "FIR"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-gavel"></i> Police Complaint (FIR Format)</h3>
+                    <p>File a formal written complaint with the police station. This may lead to FIR (First Information Report).</p>
+                    
+                    <div class="usage-steps">
+                        <h4>How to File Police Complaint:</h4>
+                        <ol>
+                            <li>Visit the local police station with identification</li>
+                            <li>Request complaint form or write in your own words</li>
+                            <li>Describe the crime/incident chronologically</li>
+                            <li>Mention date, time, and location clearly</li>
+                            <li>Identify all accused persons</li>
+                            <li>List witnesses if any</li>
+                            <li>Submit to police in-charge</li>
+                            <li>Get a copy and diary/receipt number</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+WRITTEN COMPLAINT TO POLICE
+
+To,
+The Inspector,
+[Police Station Name]
+[City/District]
+
+Date: ________________
+Complainant Name: ________________
+Address: ________________
+Contact: ________________
+
+NATURE OF COMPLAINT:
+[Mention type of crime - theft, harassment, assault, etc.]
+
+INCIDENT DETAILS:
+Date: ________________
+Time: ________________  
+Location: ________________
+
+DESCRIPTION OF INCIDENT:
+[Describe what happened in chronological order]
+
+ACCUSED PERSON(S):
+Name: ________________
+Address: ________________
+Description: ________________
+
+WITNESSES:
+Name 1: ________________  Contact: ________________
+Name 2: ________________  Contact: ________________
+
+EVIDENCE/ARTICLES INVOLVED:
+[List items that were stolen, damaged, or relevant to crime]
+
+LOSS/DAMAGE SUFFERED:
+[Describe and quantify]
+
+PREVIOUS COMPLAINTS RELATED:
+[If any, mention]
+
+Respectfully submitted,
+
+Signature: ________________
+Name: ________________
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Important Points:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Be truthful and factual</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Provide specific details</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Get receipt of complaint filing</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Keep diary reference number</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Follow up regularly</div>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "Affidavit Template",
+                icon: "fa-file-contract",
+                description: "Sworn statement for legal proceedings, land matters, and official applications",
+                category: "legal",
+                tags: ["Legal", "Affidavit", "Court"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-file-contract"></i> Affidavit Template</h3>
+                    <p>An affidavit is a sworn statement that can be used in court or for official purposes. Must be notarized by a notary public.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>How to Prepare an Affidavit:</h4>
+                        <ol>
+                            <li>Write clearly on plain paper or printed format</li>
+                            <li>Number every paragraph</li>
+                            <li>State facts as your personal knowledge</li>
+                            <li>Avoid arguments or legal conclusions</li>
+                            <li>Sign at the end</li>
+                            <li>Get notarized by a notary public</li>
+                            <li>Attach supporting documents as annexures</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+AFFIDAVIT
+[On plain paper]
+
+I, [Full Name], Son/Daughter of [Father's Name], resident of [Address], hereby solemnly affirm and declare as follows:
+
+1. That I am conversant with the facts and circumstances of this case and my statements herein are based on my personal knowledge.
+
+2. That [State facts - use simple statements]
+   1st fact
+   2nd fact
+   3rd fact
+
+3. That the statements made herein are true to the best of my knowledge and belief.
+
+4. That I undertake to abide by the laws of the country and shall not make any false statement.
+
+VERIFICATION
+
+Verified at ________________ on ________________ that the facts stated above are true to my knowledge and belief.
+
+Signature: ________________
+Left Thumb Impression: ________________
+
+NOTARIZED BY:
+
+[Notary Public Stamp and Signature]
+Date: ________________
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Affidavit Rules:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Must be notarized</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Use "I/We" statements</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Number all paragraphs</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Include thumb impression</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Date and sign properly</div>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                title: "Labour Complaint Form",
+                icon: "fa-briefcase",
+                description: "File complaint for wage issues, unsafe working conditions, and labour disputes",
+                category: "complaint",
+                tags: ["Labour", "Workplace", "Rights"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-briefcase"></i> Labour Complaint Form</h3>
+                    <p>Lodge complaint with Labour Department for wage theft, unsafe conditions, or breach of labour laws.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>Filing Process:</h4>
+                        <ol>
+                            <li>Approach Local Labour Inspector's office</li>
+                            <li>Get complaint form or write on plain paper</li>
+                            <li>Describe the labour law violation</li>
+                            <li>Mention dates and amounts involved</li>
+                            <li>List witnesses if any</li>
+                            <li>Submit with supporting documents</li>
+                            <li>Labour Inspector will investigate</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+LABOUR COMPLAINT FORM
+
+WORKER'S DETAILS:
+Full Name: ________________
+Father's Name: ________________
+Address: ________________
+Contact: ________________
+ID Proof: ________________
+
+EMPLOYER'S DETAILS:
+Company/Business Name: ________________
+Address: ________________
+Business Type: ________________
+Owner/Manager: ________________
+
+EMPLOYMENT DETAILS:
+Designation: ________________
+Date of Joining: ________________
+Salary: Rs. ________________ per month
+Contract Period: ________________
+
+NATURE OF COMPLAINT:
+[ ] Non-payment of wages
+[ ] Unauthorized deductions
+[ ] Excessive working hours
+[ ] Unsafe working conditions
+[ ] Child labour
+[ ] Sexual harassment
+[ ] Wrongful termination
+[ ] Other: ________________
+
+DETAILS OF COMPLAINT:
+[Describe what happened, dates, amounts, impact]
+
+AMOUNT CLAIMED: Rs. ________________
+
+SUPPORTING DOCUMENTS:
+[ ] Employment contract
+[ ] Salary slips
+[ ] Bank statements
+[ ] Photographs (unsafe conditions)
+[ ] Medical report
+[ ] Witness statements
+
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Important Steps:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Keep salary records</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Document everything</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Know your rights</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Contact Labour Inspector</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> File written complaint</div>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                title: "Property Correction Affidavit",
+                icon: "fa-house",
+                description: "Correct errors or omissions in property records through affidavit and mutation",
+                category: "property",
+                tags: ["Property", "Correction", "Land"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-house"></i> Property Correction Affidavit</h3>
+                    <p>Use this affidavit to correct errors in property records like wrong name, area, or boundary details.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>Correction Process:</h4>
+                        <ol>
+                            <li>Identify the error in land record</li>
+                            <li>Prepare correction affidavit</li>
+                            <li>Get affidavit notarized</li>
+                            <li>Prepare declaration from witnesses</li>
+                            <li>Collect supporting documents (deeds, etc.)</li>
+                            <li>Submit to Tehsil office</li>
+                            <li>Public notice will be issued</li>
+                            <li>After objection period, correction is made</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+CORRECTION AFFIDAVIT FOR LAND RECORD
+
+I, [Name], Son/Daughter of [Father's Name], resident of [Address], hereby declare:
+
+1. That I am the owner of the property described below:
+   Survey No: ________________
+   Village: ________________
+   Area: ________________
+   District: ________________
+
+2. That in the current land record, there is an error/omission:
+   [ ] Wrong name of owner
+   [ ] Wrong area measurement
+   [ ] Wrong boundary description
+   [ ] Wrong father's name
+   [ ] Other: ________________
+
+3. The correct details should be:
+   [Provide correct information]
+
+4. This error occurred due to [mention reason - clerical error, etc.]
+
+5. I have all supporting documents to prove the correct details.
+
+6. I declare this affidavit is true and verify the facts stated above.
+
+Signature: ________________
+Date: ________________
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Documents Required:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Notarized affidavit</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Property deed</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Witness declaration</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Tax receipts</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Current land record copy</div>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                title: "Defamation Notice",
+                icon: "fa-megaphone",
+                description: "Legal notice for false statements, libel, or slander that have damaged your reputation",
+                category: "legal",
+                tags: ["Legal", "Defamation", "Notice"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-megaphone"></i> Defamation Notice</h3>
+                    <p>File notice against defamatory statements, false accusations, or damage to your reputation.</p>
+                    
+                    <div class="usage-steps">
+                        <h4>How to Proceed:</h4>
+                        <ol>
+                            <li>Document the defamatory statement (screenshot, recording, etc.)</li>
+                            <li>Identify who made the statement and when</li>
+                            <li>Collect evidence of reputation damage</li>
+                            <li>Draft notice through lawyer</li>
+                            <li>Demand retraction and apology</li>
+                            <li>Send via registered post with A/D</li>
+                            <li>If not complied, file criminal case or civil suit</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+DEFAMATION NOTICE
+
+To,
+[Name of Person]
+[Address]
+
+Date: ________________
+
+Dear Sir/Madam,
+
+It is with great regret that we are constrained to issue this legal notice to you for making false, defamatory, and scandalous statements against our client, [Your Name].
+
+On [Date], you [describe what was said/posted] which is:
+- Completely false and baseless
+- Calculated to damage reputation
+- Caused mental distress and loss of reputation
+
+Our client demands:
+1. Immediate retraction/deletion of statement
+2. Public apology
+3. Compensation of Rs. ________________
+4. Cessation of such statements
+
+Failure to comply within 7 days will result in criminal prosecution and civil suit.
+
+Yours faithfully,
+
+[Lawyer Name/Your Name]
+                    </div>
+
+                    <div class="checklist">
+                        <h4>What to Keep:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Screenshots of statement</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Recordings/videos</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Witness accounts</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Impact documentation</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Proof of posting/publication date</div>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                title: "Complaint to Ombudsman",
+                icon: "fa-user-shield",
+                description: "Appeal to Ombudsman for government corruption, malpractice, and administrative injustice",
+                category: "complaint",
+                tags: ["Ombudsman", "Government", "Complaint"],
+                content: `
+                    <h3 class="modal-title"><i class="fa-solid fa-user-shield"></i> Ombudsman Complaint</h3>
+                    <p>If government officials act with dishonesty, corruption, or injustice, file complaint with Ombudsman (Lokayukta).</p>
+                    
+                    <div class="usage-steps">
+                        <h4>Filing Process:</h4>
+                        <ol>
+                            <li>Identify the Lokayukta office in your state</li>
+                            <li>Write detailed complaint about government action</li>
+                            <li>Attach supporting evidence and documents</li>
+                            <li>File within specific time limits (usually 5-6 years)</li>
+                            <li>Ombudsman investigates the matter</li>
+                            <li>Conducts inquiry and hearings</li>
+                            <li>Recommends action to correct wrong</li>
+                        </ol>
+                    </div>
+
+                    <div class="template-preview">
+COMPLAINT TO LOKAYUKTA/OMBUDSMAN
+
+To,
+The Lokayukta,
+[State/Department]
+[Address]
+
+Date: ________________
+
+DETAILS OF COMPLAINANT:
+Name: ________________
+Address: ________________
+Contact: ________________
+
+DETAILS OF ACCUSED OFFICIAL:
+Name: ________________
+Designation: ________________
+Department: ________________
+Office Address: ________________
+
+NATURE OF COMPLAINT:
+[ ] Corruption
+[ ] Malpractice
+[ ] Injustice
+[ ] Negligence
+[ ] Abuse of authority
+[ ] Other: ________________
+
+DESCRIPTION OF INCIDENT:
+[Describe the improper action taken by official]
+Date: ________________
+Location: ________________
+
+GRIEVANCE:
+[Explain how it affected you]
+
+RELIEF SOUGHT:
+[What action should be taken]
+
+SUPPORTING DOCUMENTS ATTACHED:
+[ ] Correspondence with official
+[ ] Decision letter
+[ ] Witness statements
+[ ] Photographs/Evidence
+[ ] Court orders (if any)
+
+Declaration: The facts stated are true.
+
+Signature: ________________
+Name: ________________
+                    </div>
+
+                    <div class="checklist">
+                        <h4>Important Information:</h4>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Must be within 5-6 years</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Identify specific official</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Provide documentary proof</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Mention impact on you</div>
+                        <div class="checklist-item"><i class="fa-solid fa-check"></i> Seek reasonable relief</div>
+                    </div>
+                `
+            }
+        ];
+
+        // Render documents
+        function renderDocuments(docsToRender) {
+            const grid = document.getElementById('documentsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (docsToRender.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            grid.innerHTML = docsToRender.map(doc => `
+                <div class="document-card">
+                    <i class="fa-solid ${doc.icon}"></i>
+                    <h3>${doc.title}</h3>
+                    <p class="description">${doc.description}</p>
+                    <div class="tags">
+                        ${doc.tags.map(tag => `<span class="tag-item">${tag}</span>`).join('')}
+                    </div>
+                    <div class="document-actions">
+                        <button class="btn-view" onclick="openModal(${doc.id})"><i class="fa-solid fa-eye"></i> View</button>
+                        <button class="btn-download" onclick="downloadDocument('${doc.title}')"><i class="fa-solid fa-download"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter by category
+        function filterCategory(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const filtered = category === 'all' ? documents : documents.filter(doc => doc.category === category);
+            renderDocuments(filtered);
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filtered = documents.filter(doc => 
+                doc.title.toLowerCase().includes(searchTerm) ||
+                doc.description.toLowerCase().includes(searchTerm) ||
+                doc.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+            );
+            renderDocuments(filtered);
+        });
+
+        // Modal functions
+        function openModal(docId) {
+            const doc = documents.find(d => d.id === docId);
+            document.getElementById('modalBody').innerHTML = doc.content;
+            document.getElementById('documentModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('documentModal').classList.remove('active');
+        }
+
+        function downloadDocument(title) {
+            alert(`Download template: "${title}"\n\nFormat options:\n- PDF\n- Word (.docx)\n- Plain Text\n\nThis feature will be available soon!`);
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('documentModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Initial render
+        renderDocuments(documents);
+    </script>
+</body>
+</html>
