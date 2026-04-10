@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 50%, #fecaca 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .contact-container {
+            background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%);
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(244, 89, 17, 0.12), 0 2px 8px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 500px;
+            border-left: 5px solid #f45911;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(244, 89, 17, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #f45911;
+            box-shadow: 0 0 0 3px rgba(244, 89, 17, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #f45911 0%, #d97706 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(244, 89, 17, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(244, 89, 17, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 13px;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(220, 38, 38, 0.1);
+            border-left: 3px solid #dc2626;
+            border-radius: 4px;
+        }
+
+        .success {
+            color: #16a34a;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: rgba(22, 163, 74, 0.1);
+            border-left: 3px solid #16a34a;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="contact-container">
+    <h2>Contact Us</h2>
+    <div id="form-message"></div>
+    <form id="contactForm" novalidate>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email">
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Your message"></textarea>
+
+        <button type="submit">Send Message</button>
+    </form>
+</div>
+
+<script>
+    // Form validation and submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const formMessage = document.getElementById('form-message');
+
+        formMessage.innerHTML = ''; // Clear previous messages
+
+        // Validation
+        if (!name || !email || !message) {
+            formMessage.innerHTML = '<p class="error">All fields are required.</p>';
+            return;
+        }
+
+        const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,6}$/i;
+        if (!emailPattern.test(email)) {
+            formMessage.innerHTML = '<p class="error">Please enter a valid email address.</p>';
+            return;
+        }
+
+        // Simulate successful submission
+        formMessage.innerHTML = '<p class="success">Your message has been sent successfully!</p>';
+        document.getElementById('contactForm').reset();
+
+        // TODO: Integrate with backend API or email service
+    });
+</script>
+
+</body>
+</html>

@@ -14,39 +14,44 @@
         .legal-header h2 { font-size: 35px; margin-bottom: 10px; color: #1e293b; }
         .legal-header p { font-size: 16px; color: #475569; }
 
-        .guidance-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 50px; }
+        .guidance-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 50px; background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 50%, #fecaca 100%); padding: 50px 40px; border-radius: 16px; }
         
         .guidance-card { 
-            background: white; 
-            border-radius: 12px; 
+            background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%); 
+            border-radius: 14px; 
             padding: 30px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
-            border-left: 5px solid #1d4ed8;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 20px rgba(244, 89, 17, 0.12), 0 2px 8px rgba(0,0,0,0.06); 
+            border-left: 5px solid #f45911;
+            transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
-        .guidance-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
-        .guidance-card i { font-size: 35px; color: #1d4ed8; margin-bottom: 15px; }
+        .guidance-card::before { content: ''; position: absolute; top: 0; right: 0; width: 100px; height: 100px; background: radial-gradient(circle, rgba(244, 89, 17, 0.05) 0%, transparent 70%); pointer-events: none; }
+        .guidance-card:hover { transform: translateY(-8px); box-shadow: 0 14px 35px rgba(244, 89, 17, 0.2), 0 4px 12px rgba(0,0,0,0.1); }
+        .guidance-card i { font-size: 35px; color: #f45911; margin-bottom: 15px; }
         .guidance-card h3 { font-size: 20px; margin-bottom: 10px; color: #1e293b; }
         .guidance-card p { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 15px; }
-        .learn-more-btn { color: #1d4ed8; font-weight: 600; cursor: pointer; text-decoration: none; }
+        .learn-more-btn { color: #f45911; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
+        .learn-more-btn:hover { color: #d97706; text-decoration: underline; }
         .learn-more-btn:hover { text-decoration: underline; }
 
-        .detailed-section { background: #f0f4f8; padding: 40px; border-radius: 12px; margin-bottom: 40px; }
+        .detailed-section { background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%); padding: 40px; border-radius: 12px; margin-bottom: 40px; border-left: 5px solid #f45911; }
         .detailed-section h3 { color: #1e293b; font-size: 22px; margin-bottom: 15px; }
         .detailed-section p { color: #475569; line-height: 1.8; margin-bottom: 15px; }
 
         .steps-list { 
-            background: white; 
+            background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%); 
             border-radius: 10px; 
             padding: 20px; 
             margin-top: 15px;
-            border-left: 4px solid #16a34a;
+            border-left: 4px solid #f45911;
+            box-shadow: 0 4px 12px rgba(244, 89, 17, 0.08);
         }
         .step { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0; }
         .step:last-child { border-bottom: none; }
         .step-number { 
-            background: #1d4ed8; 
+            background: linear-gradient(135deg, #f45911 0%, #d97706 100%); 
             color: white; 
             width: 35px; 
             height: 35px; 
@@ -56,6 +61,7 @@
             justify-content: center; 
             font-weight: 700;
             flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(244, 89, 17, 0.3);
         }
         .step-content h4 { color: #1e293b; margin-bottom: 5px; font-weight: 600; }
         .step-content p { color: #64748b; font-size: 14px; }
@@ -72,7 +78,7 @@
             border-top: 1px solid #e2e8f0;
         }
         .faq-answer.active { display: block; }
-        .faq-toggle { color: #1d4ed8; font-weight: bold; }
+        .faq-toggle { color: #f45911; font-weight: bold; }
 
         .contact-section { 
             background: linear-gradient(135deg, #1e293b, #334155); 
@@ -84,12 +90,139 @@
         }
         .contact-section h3 { font-size: 24px; margin-bottom: 15px; }
         .contact-section p { margin-bottom: 20px; font-size: 16px; }
-        .contact-btn { background: #1d4ed8; color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; }
-        .contact-btn:hover { background: #1e40af; }
+        .contact-btn { background: linear-gradient(135deg, #f45911 0%, #d97706 100%); color: white; border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(244, 89, 17, 0.3); }
+        .contact-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(244, 89, 17, 0.4); }
 
         .back-link { margin-bottom: 20px; }
-        .back-link a { color: #1d4ed8; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .back-link a { color: #f45911; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: all 0.3s ease; }
+        .back-link a:hover { color: #d97706; }
         .back-link a:hover { text-decoration: underline; }
+
+        /* Modal Styling */
+        .contact-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .contact-modal-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        .contact-modal {
+            background: linear-gradient(135deg, #ffffff 0%, #fef9f3 100%);
+            padding: 40px;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border-left: 5px solid #f45911;
+            position: relative;
+            animation: slideUp 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 32px;
+            cursor: pointer;
+            color: #f45911;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+        .modal-close:hover {
+            color: #d97706;
+            transform: rotate(90deg);
+        }
+        .contact-modal h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1e293b;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .contact-modal label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 14px;
+        }
+        .contact-modal input, .contact-modal textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .contact-modal input:focus, .contact-modal textarea:focus {
+            outline: none;
+            border-color: #f45911;
+            box-shadow: 0 0 0 3px rgba(244, 89, 17, 0.1);
+        }
+        .contact-modal textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .contact-modal button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #f45911 0%, #d97706 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(244, 89, 17, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+        .contact-modal button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(244, 89, 17, 0.4);
+        }
+        #form-message {
+            margin-bottom: 15px;
+        }
+        .error {
+            color: #dc2626;
+            font-size: 13px;
+            padding: 10px;
+            background: rgba(220, 38, 38, 0.1);
+            border-left: 3px solid #dc2626;
+            border-radius: 4px;
+        }
+        .success {
+            color: #16a34a;
+            font-size: 14px;
+            padding: 10px;
+            background: rgba(22, 163, 74, 0.1);
+            border-left: 3px solid #16a34a;
+            border-radius: 4px;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -496,7 +629,28 @@
         <div class="contact-section">
             <h3>Need Professional Legal Assistance?</h3>
             <p>While NagrikNetra provides guidance, complex legal matters may require professional consultation.</p>
-            <button class="contact-btn" onclick="alert('Contact feature coming soon! For now, consult a local bar association for lawyer referrals.')">Find a Lawyer</button>
+            <button class="contact-btn" onclick="openContactModal()">Find a Lawyer</button>
+        </div>
+
+        <!-- Modal Overlay -->
+        <div id="contact-modal" class="contact-modal-overlay" onclick="closeContactModal(event)">
+            <div class="contact-modal" onclick="event.stopPropagation()">
+                <button class="modal-close" onclick="closeContactModal()">&times;</button>
+                <h2>Contact Us</h2>
+                <div id="form-message"></div>
+                <form id="contactForm" novalidate>
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your name">
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your email">
+
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Your message"></textarea>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
         </div>
     </section>
 
@@ -599,6 +753,55 @@
                 }
             }
         });
+
+        // Contact Modal Functions
+        window.openContactModal = function() {
+            const modal = document.getElementById('contact-modal');
+            if (modal) {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeContactModal = function(event) {
+            if (event && event.target.id !== 'contact-modal') return;
+            const modal = document.getElementById('contact-modal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+        };
+
+        // Contact Form Validation
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const message = document.getElementById('message').value.trim();
+                const formMessage = document.getElementById('form-message');
+
+                formMessage.innerHTML = '';
+
+                if (!name || !email || !message) {
+                    formMessage.innerHTML = '<p class="error">All fields are required.</p>';
+                    return;
+                }
+
+                const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,6}$/i;
+                if (!emailPattern.test(email)) {
+                    formMessage.innerHTML = '<p class="error">Please enter a valid email address.</p>';
+                    return;
+                }
+
+                formMessage.innerHTML = '<p class="success">Your message has been sent successfully!</p>';
+                contactForm.reset();
+                setTimeout(() => {
+                    closeContactModal();
+                }, 2000);
+            });
+        }
     </script>
 </body>
 </html>
