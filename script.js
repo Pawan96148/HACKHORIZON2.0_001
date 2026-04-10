@@ -1,92 +1,126 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- 1. Main Search Bar Functionality ---
-    const searchInput = document.querySelector('input[placeholder="Search for a procedure, notice, or legal topic..."]');
-    const searchBtn = document.querySelector('.search-btn');
+    // --- 1. Search Bar Logic ---
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
 
-    function handleSearch() {
-        const query = searchInput.value.trim();
-        if(query) {
-            // Change button to a loading spinner for a cool UX effect
-            searchBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-            
-            // Simulate backend delay (1 second)
-            setTimeout(() => {
-                alert(`Action: Sending "${query}" to the backend.\n\n(During the hackathon, connect this to your Python API!)`);
-                searchBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>'; // Reset button
-            }, 1000);
-        } else {
-            alert("Please enter a procedure or upload a document first.");
+    function runSearch() {
+        const text = searchInput.value.trim();
+        if (text === "") alert("Please type something to search!");
+        else alert("Searching for: " + text);
+    }
+
+    if (searchBtn) searchBtn.addEventListener('click', runSearch);
+    if (searchInput) searchInput.addEventListener('keypress', e => { if (e.key === 'Enter') runSearch(); });
+
+    const allTags = document.querySelectorAll('.tag');
+    allTags.forEach(tagElement => {
+        tagElement.addEventListener('click', function() {
+            searchInput.value = this.innerText;
+            runSearch();
+        });
+    });
+
+    // --- 2. Hybrid File & Camera Logic ---
+    const uploadOptions = document.getElementById('upload-options');
+    const cameraUI = document.getElementById('camera-ui');
+    const fileInput = document.getElementById('file-input');
+    const fileNameDisplay = document.getElementById('file-name');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    
+    // Buttons
+    const browseBtn = document.getElementById('browse-btn');
+    const openCameraBtn = document.getElementById('camera-btn');
+    const cancelCameraBtn = document.getElementById('cancel-camera-btn');
+    const captureBtn = document.getElementById('capture-btn');
+    const retakeBtn = document.getElementById('retake-btn');
+
+    // Camera Elements
+    const videoElement = document.getElementById('camera-stream');
+    const canvasElement = document.getElementById('snapshot-canvas');
+    let cameraStream = null;
+
+    // --- A. File Browsing ---
+    browseBtn.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files.length > 0) {
+            fileNameDisplay.innerText = "Selected: " + this.files[0].name;
+            analyzeBtn.style.display = 'block';
+        }
+    });
+
+    // --- B. Camera Streaming ---
+    function stopCamera() {
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => track.stop());
+            cameraStream = null;
         }
     }
 
-    if(searchBtn && searchInput) {
-        searchBtn.addEventListener('click', handleSearch);
-        
-        // Allow user to hit "Enter" on their keyboard to search
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') handleSearch();
-        });
-    }
-
-    // --- 2. Make Suggestion Pills Clickable ---
-    const pills = document.querySelectorAll('.suggestion-pill');
-    pills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            searchInput.value = pill.innerText; // Put pill text into search bar
-            handleSearch(); // Automatically trigger search
-        });
-    });
-
-    // --- 3. "Ask NagrikNetra" AI Form Submission ---
-    const askTextarea = document.getElementById('ask-textarea');
-    const askBtn = document.getElementById('ask-btn');
-
-    if(askBtn && askTextarea) {
-        askBtn.addEventListener('click', () => {
-            const question = askTextarea.value.trim();
-            if(question) {
-                const originalText = askBtn.innerHTML;
-                // Show loading state
-                askBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Analyzing...</span>';
-                
-                // Simulate sending to your Gemini AI backend
-                setTimeout(() => {
-                    alert(`Sending to AI Engine:\n"${question}"\n\n(Wait for JSON response from backend)`);
-                    askBtn.innerHTML = originalText; // Reset button
-                    askTextarea.value = ''; // Clear textarea after sending
-                }, 1500);
-            } else {
-                alert("Please describe your issue in the box first.");
-            }
-        });
-    }
-
-    // --- 4. Language Selector Interaction ---
-    // Makes the language bubbles highlight when clicked
-    const langContainers = document.querySelectorAll('.language-grid > div');
-    langContainers.forEach(container => {
-        container.addEventListener('click', function() {
-            // Remove active styling from all bubbles
-            langContainers.forEach(l => {
-                const iconBox = l.querySelector('.lang-icon');
-                if(iconBox) iconBox.classList.remove('ring-2', 'ring-blue-600', 'ring-offset-2');
-            });
+    openCameraBtn.addEventListener('click', async () => {
+        try {
+            // Request camera
+            cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            videoElement.srcObject = cameraStream;
             
-            // Add active styling to the clicked bubble
-            const iconBox = this.querySelector('.lang-icon');
-            const spanText = this.querySelector('span').innerText;
-            if(iconBox && !spanText.includes("More")) {
-                iconBox.classList.add('ring-2', 'ring-blue-600', 'ring-offset-2');
-            }
-        });
+            // Switch UI
+            uploadOptions.style.display = 'none';
+            cameraUI.style.display = 'flex';
+            
+            // Reset state
+            videoElement.style.display = 'block';
+            canvasElement.style.display = 'none';
+            captureBtn.style.display = 'block';
+            retakeBtn.style.display = 'none';
+            analyzeBtn.style.display = 'none'; // Hide analyze until photo taken
+            
+        } catch (err) {
+            console.error("Camera Error:", err);
+            alert("Could not access the camera. Make sure you are using a local server (like Live Server in VS Code) or HTTPS.");
+        }
     });
 
-    // --- 5. Trigger CSS Animations on Load ---
-    const sections = document.querySelectorAll('.animate-section');
-    sections.forEach((sec, index) => {
-        sec.classList.add('fade-in');
-        sec.style.animationDelay = `${index * 0.15}s`; // Stagger the animation timing
+    cancelCameraBtn.addEventListener('click', () => {
+        stopCamera();
+        cameraUI.style.display = 'none';
+        uploadOptions.style.display = 'block';
+        if (fileInput.files.length > 0) analyzeBtn.style.display = 'block'; // Restore analyze button if file was selected previously
+    });
+
+    captureBtn.addEventListener('click', () => {
+        // Draw video frame to canvas
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+        const context = canvasElement.getContext('2d');
+        context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+
+        stopCamera(); // Turn off camera light
+
+        // Switch to photo view
+        videoElement.style.display = 'none';
+        canvasElement.style.display = 'block';
+        captureBtn.style.display = 'none';
+        retakeBtn.style.display = 'block';
+        
+        // Show the analyze button
+        analyzeBtn.style.display = 'block';
+    });
+
+    retakeBtn.addEventListener('click', () => {
+        // Just simulate clicking the open camera button again
+        openCameraBtn.click();
+    });
+
+    // --- C. Analyze Action ---
+    analyzeBtn.addEventListener('click', () => {
+        const originalHTML = analyzeBtn.innerHTML;
+        analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+        
+        setTimeout(() => {
+            alert("Document ready for AI Analysis!\n\n(Send the file or canvas image to Python backend here)");
+            analyzeBtn.innerHTML = originalHTML;
+        }, 1500);
     });
 
 });
