@@ -47,15 +47,10 @@
                 <h2 data-i18n="hero_title">Understand. Act. Empower.</h2>
                 <p data-i18n="hero_sub">NagrikNetra simplifies complex government procedures and legal documents into clear, step-by-step guidance.</p>
                 
-                <div class="search-box">
-                    <input type="text" id="search-input" data-i18n="search_placeholder" placeholder="Search for a procedure or notice...">
-                    <button id="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
-
                 <div class="suggestion-tags">
-                    <span class="tag">Land Record</span>
-                    <a href="rti.html" class="tag">RTI Filing</a>
-                    <span class="tag">Legal Notice</span>
+                    <button class="tag">Land Record</button>
+                    <a href="rti.html" class="tag" style="text-decoration: none;">RTI Filing</a>
+                    <button class="tag">Legal Notice</button>
                 </div>
             </div>
 
@@ -69,9 +64,6 @@
                         <button class="btn-secondary" id="browse-btn"><i class="fa-solid fa-folder-open"></i> <span data-i18n="btn_browse">Browse</span></button>
                         <button class="btn-secondary" id="camera-btn"><i class="fa-solid fa-camera"></i> <span data-i18n="btn_camera">Camera</span></button>
                     </div>
-                    
-                    <input type="file" id="file-input" accept="image/*,application/pdf" hidden>
-                    <p class="file-name" id="file-name"></p>
                 </div>
 
                 <div class="camera-ui" id="camera-ui" style="display: none;">

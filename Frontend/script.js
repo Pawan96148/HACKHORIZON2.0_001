@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
             login: "Login", signup: "Sign Up",
             hero_title: "Understand. Act. Empower.",
             hero_sub: "NagrikNetra simplifies complex government procedures and legal documents into clear, step-by-step guidance.",
-            search_placeholder: "Search for a procedure or notice...",
             upload_title: "Upload or Scan", upload_sub: "Provide your document to begin",
             btn_browse: "Browse", btn_camera: "Camera", btn_cancel: "Cancel", btn_capture: "Capture", btn_retake: "Retake", btn_analyze: "Analyze Document",
             feat1_title: "Simple Words", feat1_desc: "Complex legal language explained easily.",
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
             login: "लॉग इन", signup: "साइन अप",
             hero_title: "समझें। कार्य करें। सशक्त बनें।",
             hero_sub: "नागरिकनेत्र जटिल सरकारी प्रक्रियाओं और कानूनी दस्तावेजों को स्पष्ट, चरण-दर-चरण मार्गदर्शन में सरल बनाता है।",
-            search_placeholder: "किसी प्रक्रिया या नोटिस को खोजें...",
             upload_title: "अपलोड या स्कैन करें", upload_sub: "शुरू करने के लिए अपना दस्तावेज़ प्रदान करें",
             btn_browse: "फ़ाइल चुनें", btn_camera: "कैमरा", btn_cancel: "रद्द करें", btn_capture: "फोटो लें", btn_retake: "फिर से लें", btn_analyze: "दस्तावेज़ का विश्लेषण करें",
             feat1_title: "सरल शब्द", feat1_desc: "जटिल कानूनी भाषा आसानी से समझाई गई।",
@@ -36,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
             login: "লগইন", signup: "নিবন্ধন করুন",
             hero_title: "বুঝুন। কাজ করুন। ক্ষমতায়িত হন।",
             hero_sub: "নাগরিকনেত্র জটিল সরকারি পদ্ধতি এবং আইনি নথিগুলিকে স্পষ্ট, ধাপে ধাপে নির্দেশিকায় সরল করে তোলে।",
-            search_placeholder: "একটি পদ্ধতি বা নোটিশ অনুসন্ধান করুন...",
             upload_title: "আপলোড বা স্ক্যান করুন", upload_sub: "শুরু করতে আপনার নথি প্রদান করুন",
             btn_browse: "ব্রাউজ করুন", btn_camera: "ক্যামেরা", btn_cancel: "বাতিল করুন", btn_capture: "ছবি তুলুন", btn_retake: "আবার তুলুন", btn_analyze: "নথি বিশ্লেষণ করুন",
             feat1_title: "সহজ শব্দ", feat1_desc: "জটিল আইনি ভাষা সহজে ব্যাখ্যা করা হয়েছে।",
@@ -50,7 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
             login: "లాగిన్", signup: "సైన్ అప్",
             hero_title: "అర్థం చేసుకోండి. వ్యవహరించండి. సాధికారత పొందండి.",
             hero_sub: "నాగ్రిక్‌నేత్ర సంక్లిష్టమైన ప్రభుత్వ విధానాలు మరియు చట్టపరమైన పత్రాలను స్పష్టమైన, దశలవారీ మార్గదర్శకత్వంగా సులభతరం చేస్తుంది.",
-            search_placeholder: "ప్రక్రియ లేదా నోటీసు కోసం శోధించండి...",
             upload_title: "అప్‌లోడ్ లేదా స్కాన్ చేయండి", upload_sub: "ప్రారంభించడానికి మీ పత్రాన్ని అందించండి",
             btn_browse: "బ్రౌజ్ చేయండి", btn_camera: "కెమెరా", btn_cancel: "రద్దు చేయండి", btn_capture: "ఫోటో తీయండి", btn_retake: "మళ్ళీ తీయండి", btn_analyze: "పత్రాన్ని విశ్లేషించండి",
             feat1_title: "సరళమైన పదాలు", feat1_desc: "సంక్లిష్టమైన చట్టపరమైన భాష సులభంగా వివరించబడింది.",
@@ -64,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
             login: "உள்நுழை", signup: "பதிவு செய்",
             hero_title: "புரிந்துகொள்ளுங்கள். செயல்படுங்கள். அதிகாரம் பெறுங்கள்.",
             hero_sub: "நாக்ரிக்நேத்ரா சிக்கலான அரசாங்க நடைமுறைகள் மற்றும் சட்ட ஆவணங்களை தெளிவான, படிப்படியான வழிகாட்டுதலாக எளிதாக்குகிறது.",
-            search_placeholder: "ஒரு நடைமுறை அல்லது அறிவிப்பைத் தேடுங்கள்...",
             upload_title: "பதிவேற்று அல்லது ஸ்கேன் செய்", upload_sub: "தொடங்க உங்கள் ஆவணத்தை வழங்கவும்",
             btn_browse: "உலாவுக", btn_camera: "கேமரா", btn_cancel: "ரத்து செய்", btn_capture: "புகைப்படம் எடு", btn_retake: "மீண்டும் எடு", btn_analyze: "ஆவணத்தை பகுப்பாய்வு செய்",
             feat1_title: "எளிய வார்த்தைகள்", feat1_desc: "சிக்கலான சட்ட மொழி எளிதில் விளக்கப்பட்டுள்ளது.",
@@ -78,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
             login: "લૉગિન", signup: "સાઇન અપ",
             hero_title: "સમજો. કાર્ય કરો. સશક્ત બનો.",
             hero_sub: "નાગરિકનેત્ર જટિલ સરકારી પ્રક્રિયાઓ અને કાનૂની દસ્તાવેજોને સ્પષ્ટ, પગલા-દર-પગલા માર્ગદર્શનમાં સરળ બનાવે છે.",
-            search_placeholder: "પ્રક્રિયા અથવા નોટિસ શોધો...",
             upload_title: "અપલોડ કરો અથવા સ્કેન કરો", upload_sub: "શરૂ કરવા માટે તમારો દસ્તાવેજ પ્રદાન કરો",
             btn_browse: "બ્રાઉઝ કરો", btn_camera: "કૅમેરો", btn_cancel: "રદ કરો", btn_capture: "ફોટો લો", btn_retake: "ફરીથી લો", btn_analyze: "દસ્તાવેજનું વિશ્લેષણ કરો",
             feat1_title: "સરળ શબ્દો", feat1_desc: "જટિલ કાનૂની ભાષા સરળતાથી સમજાવવામાં આવી છે.",
@@ -95,11 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         elements.forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[lang] && translations[lang][key]) {
-                if (el.tagName === 'INPUT') {
-                    el.placeholder = translations[lang][key];
-                } else {
-                    el.innerText = translations[lang][key];
-                }
+                el.innerText = translations[lang][key];
             }
         });
     }
@@ -120,22 +110,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 2. Search Logic ---
-    const searchInput = document.getElementById('search-input');
-    const searchBtn = document.getElementById('search-btn');
-
-    function runSearch() {
-        const text = searchInput.value.trim();
-        if (text) alert("Searching for: " + text);
-    }
-    if (searchBtn) searchBtn.addEventListener('click', runSearch);
-    if (searchInput) searchInput.addEventListener('keypress', e => { if (e.key === 'Enter') runSearch(); });
-
+    // --- 2. Action Logic for Clickable Tags ---
     const allTags = document.querySelectorAll('.tag');
     allTags.forEach(tagElement => {
         tagElement.addEventListener('click', function() {
-            searchInput.value = this.innerText;
-            runSearch();
+            // Only trigger alert if it is a BUTTON. Anchor links (like RTI) will naturally redirect.
+            if (this.tagName === 'BUTTON') {
+                alert("Opening procedure for: " + this.innerText);
+            }
         });
     });
 
