@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Chatbot</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+  <link rel="stylesheet" href="ai.css" />
+</head>
+
+<body>
+
+<!-- Toggle Button -->
+<button id="chatbot-toggler">
+  <span class="material-symbols-rounded">mode_comment</span>
+  <span class="material-symbols-rounded">close</span>
+</button>
+
+<!-- Chatbot -->
+<div class="chatbot-popup">
+
+  <!-- Header -->
+  <div class="chat-header">
+    <h2>Chatbot</h2>
+    <button id="close-chatbot">⌄</button>
+  </div>
+
+  <!-- Body -->
+  <div class="chat-body">
+    <div class="message bot-message">
+      <div class="message-text">
+        Hey 👋 <br> How can I help you?
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="chat-footer">
+    <form class="chat-form">
+      <textarea class="message-input" placeholder="Type message..." required></textarea>
+
+      <div class="chat-controls">
+        <button type="button" id="emoji-picker">😊</button>
+        <button type="button" id="file-upload">📎</button>
+        <button type="submit" id="send-message">⬆</button>
+      </div>
+
+      <input type="file" id="file-input" hidden />
+    </form>
+  </div>
+
+</div>
+
+<!-- Emoji -->
+<script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+<script src="ai.js"></script>
+
+</body>
+</html>
