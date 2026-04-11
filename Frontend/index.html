@@ -24,7 +24,7 @@
             <a href="index.html" data-i18n="nav_home">Home</a>
             <a href="legalGuidance.html" data-i18n="nav_guidance">Legal Guidance</a>
             <a href="Document.html" data-i18n="nav_docs">Documents</a>
-            <a href="#" data-i18n="nav_ask">Ask NagrikNetra</a>
+            <a href="ai.html" data-i18n="nav_ask">Ask NagrikNetra</a>
         </div>
 
         <div class="nav-buttons">
@@ -195,6 +195,64 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Browser ki memory se check karo ki user logged in hai ya nahi
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userName = localStorage.getItem('userName');
+
+            const authButtons = document.getElementById('auth-buttons');
+            const userMenu = document.getElementById('user-menu');
+            const userNameSpan = document.getElementById('user-name');
+            const userProfileBtn = document.getElementById('user-profile-btn');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            // 2. Agar user logged in hai
+            if (isLoggedIn === 'true') {
+                // Login/Signup button chhupa do
+                if (authButtons) authButtons.style.display = 'none';
+                
+                // Profile wala menu dikha do
+                if (userMenu) userMenu.style.display = 'block'; 
+                
+                // User ka First Name set kar do (Taki bada naam UI kharab na kare)
+                if (userName && userNameSpan) {
+                    userNameSpan.innerText = userName.split(' ')[0]; 
+                }
+            }
+
+            // 3. Profile button par click karne se Dropdown khule aur band ho
+            if (userProfileBtn && dropdownMenu) {
+                userProfileBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Page pe aur kahin click hone se rokega
+                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+
+            // Kahin aur click karne pe dropdown band ho jaye
+            document.addEventListener('click', () => {
+                if (dropdownMenu) dropdownMenu.style.display = 'none';
+            });
+        });
+
+        // 4. Logout Functionality
+        function logout(event) {
+            if(event) event.preventDefault();
+            
+            // Browser se user ki sari details delete kar do
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userToken');
+            
+            // Page ko refresh kar do (taki wapas Login button aa jaye)
+            window.location.reload();
+        }
+
+        // Baaki buttons ke liye temporary functions taki error na aaye
+        function viewProfile(e) { e.preventDefault(); alert("My Profile module coming soon!"); }
+        function viewSavedDocs(e) { e.preventDefault(); alert("Saved Documents coming soon!"); }
+        function viewHistory(e) { e.preventDefault(); alert("History module coming soon!"); }
+    </script>
 </body>
 </html>

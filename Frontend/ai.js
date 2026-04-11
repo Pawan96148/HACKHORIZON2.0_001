@@ -1,87 +1,103 @@
-const chatBody = document.querySelector(".chat-body");
+/**
+ * 🏛️ NagrikNetra AI Assistant - Groq Powered (Free Tier)
+ * Layout: Standalone Webpage
+ */
+
+const chatBody = document.getElementById("chat-body");
 const messageInput = document.querySelector(".message-input");
-const chatbotToggler = document.querySelector("#chatbot-toggler");
-const closeChatbot = document.querySelector("#close-chatbot");
+const chatForm = document.querySelector(".chat-form");
 
-const API_KEY = "YOUR_API_KEY_HERE"; // 🔥 put your Gemini API key
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+// 🔑 APNI GROQ API KEY YAHAN PASTE KARO (gsk_...)
+const GROQ_API_KEY = "YAHAN_GROQ_KEY_PASTE_KARO"; 
 
-let chatHistory = [];
+// Get User's First Name from localStorage
+const fullName = localStorage.getItem('userName') || "Citizen";
+const firstName = fullName.split(' ')[0];
 
-/* Create message */
+/**
+ * UI: Create Message Element
+ */
 function createMessage(text, className) {
-  const div = document.createElement("div");
-  div.classList.add("message", className);
-
-  div.innerHTML = `<div class="message-text">${text}</div>`;
-  return div;
+    const div = document.createElement("div");
+    div.classList.add("message", className);
+    
+    const botIcon = className === "bot-message" ? '<div class="bot-avatar"><span class="material-symbols-rounded">robot_2</span></div>' : '';
+    
+    div.innerHTML = `
+        ${botIcon}
+        <div class="message-text">${text}</div>
+    `;
+    return div;
 }
 
-/* Send message */
+/**
+ * CORE: Send & Receive Message via Groq
+ */
 async function sendMessage(e) {
-  e.preventDefault();
+    if (e) e.preventDefault();
 
-  const userText = messageInput.value.trim();
-  if (!userText) return;
+    const userText = messageInput.value.trim();
+    if (!userText) return;
 
-  // Show user message
-  chatBody.appendChild(createMessage(userText, "user-message"));
-  messageInput.value = "";
+    // 1. Show User Message
+    chatBody.appendChild(createMessage(userText, "user-message"));
+    messageInput.value = "";
+    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
 
-  // Scroll
-  chatBody.scrollTop = chatBody.scrollHeight;
+    // 2. Show "Analyzing..." State
+    const loadingMsg = createMessage("NagrikNetra is analyzing legal database...", "bot-message");
+    chatBody.appendChild(loadingMsg);
+    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
 
-  // Show loading
-  const loading = createMessage("Typing...", "bot-message");
-  chatBody.appendChild(loading);
+    try {
+        // Groq API Call
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${GROQ_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile", // Top tier model, fast & smart
+                messages: [
+                    { 
+                        role: "system", 
+                        content: `You are NagrikNetra AI, a specialized Legal & Government Procedure Assistant for Indian citizens. 
+                        Help ${firstName} understand government procedures, RTI, FIR, and citizen rights. 
+                        Keep answers concise, professional, and explain legal terms in simple Hindi/English.` 
+                    },
+                    { role: "user", content: userText }
+                ],
+                temperature: 0.7,
+                max_tokens: 2048
+            })
+        });
 
-  // Add to history
-  chatHistory.push({
-    role: "user",
-    parts: [{ text: userText }]
-  });
+        const data = await response.json();
 
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ contents: chatHistory })
-    });
+        if (data.error) throw new Error(data.error.message);
 
-    const data = await res.json();
+        const botResponse = data.choices[0].message.content;
 
-    const botText =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+        // 3. Update Loading Message with AI Response
+        loadingMsg.querySelector(".message-text").innerHTML = botResponse.replace(/\n/g, "<br>");
 
-    loading.querySelector(".message-text").innerText = botText;
+    } catch (err) {
+        console.error("AI Error:", err);
+        loadingMsg.querySelector(".message-text").innerHTML = "⚠️ Connection Error. Please ensure your Groq API key is valid.";
+    }
 
-    chatHistory.push({
-      role: "model",
-      parts: [{ text: botText }]
-    });
-
-  } catch (err) {
-    loading.querySelector(".message-text").innerText = "Error ❌";
-    console.error(err);
-  }
-
-  chatBody.scrollTop = chatBody.scrollHeight;
+    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
 }
 
-/* Events */
-document.querySelector(".chat-form").addEventListener("submit", sendMessage);
+/**
+ * EVENT LISTENERS
+ */
+chatForm.addEventListener("submit", sendMessage);
 
+// Enter Key to Send (Desktop)
 messageInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 768) {
-    sendMessage(e);
-  }
+    if (e.key === "Enter" && !e.shiftKey) {
+        sendMessage(e);
+    }
 });
-
-/* Toggle chatbot */
-chatbotToggler.onclick = () => {
-  document.body.classList.toggle("show-chatbot");
-};
-
-closeChatbot.onclick = () => {
-  document.body.classList.remove("show-chatbot");
-};

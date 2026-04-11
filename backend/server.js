@@ -6,10 +6,16 @@ require('dotenv').config();
 
 const db = require('./config/db');
 
+
+
 //Middleware
 const bodyParser=require('body-parser');
 app.use(bodyParser.json()); // req.bodynet
 
+const cors = require('cors');
+
+// Isko apne app.use(bodyParser.json()) ke theek neeche daal do:
+app.use(cors());
 //Routes
 app.get('/', (req, res) => {
   res.send('hey broh😎.... how can i help you????')

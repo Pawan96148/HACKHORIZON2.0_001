@@ -7,396 +7,62 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(to bottom, #f0f4f8, #ffffff);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .auth-wrapper {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 450px;
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-        }
-
-        .auth-aside {
-            background: linear-gradient(135deg, #e0e7ff 0%, #f0f4f8 100%);
-            color: #1e293b;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-width: 150px;
-        }
-
-        .auth-aside h2 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .toggle-btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 100%;
-        }
-
-        .toggle-btn {
-            padding: 10px 15px;
-            border: 2px solid #1e293b;
-            background: transparent;
-            color: #1e293b;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .toggle-btn.active {
-            background: #1e293b;
-            color: white;
-        }
-
-        .toggle-btn:hover {
-            transform: translateX(5px);
-        }
-
-        .auth-main {
-            padding: 40px;
-            flex: 1;
-            min-width: 250px;
-        }
-
-        .auth-form {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .auth-form.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .auth-header-icon {
-            font-size: 2.5rem;
-            color: #1a237e;
-            margin-bottom: 10px;
-        }
-
-        .auth-header h3 {
-            color: #1a237e;
-            margin: 0 0 5px 0;
-            font-size: 1.5rem;
-        }
-
-        .auth-header p {
-            color: #666;
-            margin: 0;
-            font-size: 0.9rem;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #1a237e;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #1a237e;
-            box-shadow: 0 0 8px rgba(26, 35, 126, 0.2);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .form-row .form-group {
-            margin-bottom: 18px;
-        }
-
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            font-size: 0.9rem;
-        }
-
-        .remember-forgot a {
-            color: #1a237e;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .remember-forgot a:hover {
-            text-decoration: underline;
-        }
-
-        .remember-forgot input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .terms-checkbox {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            margin-bottom: 18px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .terms-checkbox input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            margin-top: 2px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .terms-checkbox a {
-            color: #1a237e;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .terms-checkbox a:hover {
-            text-decoration: underline;
-        }
-
-        .btn-submit {
-            width: 100%;
-            padding: 11px;
-            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(26, 35, 126, 0.4);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        /* --- SOCIAL LOGIN BUTTONS --- */
-        .social-divider {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            color: #999;
-            font-size: 0.85rem;
-        }
-        .social-divider::before,
-        .social-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #ddd;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(to bottom, #f0f4f8, #ffffff); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; font-family: 'Inter', sans-serif; }
+        .auth-wrapper { background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2); max-width: 850px; width: 100%; overflow: hidden; display: flex; }
+        .auth-aside { background: linear-gradient(135deg, #e0e7ff 0%, #f0f4f8 100%); color: #1e293b; padding: 40px 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-width: 250px; }
+        .auth-aside h2 { font-size: 1.5rem; margin-bottom: 20px; text-align: center; }
+        .toggle-btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .toggle-btn { padding: 12px 15px; border: 2px solid #1e293b; background: transparent; color: #1e293b; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; font-size: 1rem; }
+        .toggle-btn.active { background: #1e293b; color: white; }
+        .toggle-btn:hover { transform: translateX(5px); }
+        .auth-main { padding: 40px; flex: 1; min-width: 300px; }
+        .auth-form { display: none; animation: fadeIn 0.4s ease; }
+        .auth-form.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .auth-header { text-align: center; margin-bottom: 30px; }
+        .auth-header-icon { font-size: 2.5rem; color: #1a237e; margin-bottom: 10px; }
+        .auth-header h3 { color: #1a237e; margin: 0 0 5px 0; font-size: 1.5rem; }
+        .auth-header p { color: #666; margin: 0; font-size: 0.9rem; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; color: #1a237e; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 0.95rem; transition: all 0.3s ease; font-family: 'Inter', sans-serif; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #1a237e; box-shadow: 0 0 8px rgba(26, 35, 126, 0.2); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .remember-forgot { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; font-size: 0.9rem; }
+        .remember-forgot a { color: #1a237e; text-decoration: none; font-weight: 600; }
+        .remember-forgot a:hover { text-decoration: underline; }
+        .terms-checkbox { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 18px; font-size: 0.85rem; color: #666; }
+        .terms-checkbox a { color: #1a237e; text-decoration: none; font-weight: 600; }
+        .terms-checkbox a:hover { text-decoration: underline; }
+        .btn-submit { width: 100%; padding: 12px; background: linear-gradient(135deg, #1a237e 0%, #283593 100%); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(26, 35, 126, 0.4); }
+        .social-divider { display: flex; align-items: center; margin: 20px 0; color: #999; font-size: 0.85rem; }
+        .social-divider::before, .social-divider::after { content: ''; flex: 1; height: 1px; background: #ddd; }
         .social-divider::before { margin-right: 10px; }
         .social-divider::after { margin-left: 10px; }
-
-        .social-login {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .btn-social {
-            flex: 1;
-            padding: 11px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-social:hover {
-            border-color: #999;
-            background: #f9f9f9;
-            transform: translateY(-2px);
-        }
-
-        .btn-google {
-            color: #ea4335;
-        }
-
-        .btn-github {
-            color: #333;
-        }
-
-        .back-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-
-        .back-link a {
-            color: #1e293b;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .back-link a:hover {
-            gap: 12px;
-        }
-
-        .success-message {
-            display: none;
-            background: #e8f5e9;
-            border: 2px solid #4caf50;
-            color: #2e7d32;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .auth-wrapper {
-                flex-direction: column;
-            }
-
-            .auth-aside {
-                padding: 20px 30px;
-                min-width: unset;
-                order: 2;
-            }
-
-            .auth-main {
-                order: 1;
-                padding: 30px 20px;
-            }
-
-            .toggle-btn-group {
-                flex-direction: row;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .auth-aside h2 {
-                font-size: 1rem;
-                margin-bottom: 15px;
-            }
-
-            .toggle-btn {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .auth-main {
-                padding: 20px 15px;
-            }
-
-            .auth-header h3 {
-                font-size: 1.3rem;
-            }
-
-            .form-group input, .form-group select {
-                font-size: 16px; /* Prevents zoom on iOS */
-            }
-        }
+        .social-login { display: flex; gap: 12px; margin-bottom: 20px; }
+        .btn-social { flex: 1; padding: 11px; border: 2px solid #e0e0e0; background: white; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s ease; }
+        .btn-social:hover { border-color: #999; background: #f9f9f9; transform: translateY(-2px); }
+        .btn-google { color: #ea4335; }
+        .btn-github { color: #333; }
+        .back-link { position: absolute; top: 20px; left: 20px; }
+        .back-link a { color: #1e293b; text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 600; transition: all 0.3s ease; }
+        .back-link a:hover { gap: 12px; }
+        .success-message { display: none; background: #e8f5e9; border: 2px solid #4caf50; color: #2e7d32; padding: 12px; border-radius: 6px; margin-bottom: 15px; animation: slideDown 0.3s ease; text-align: center; font-weight: 600;}
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { .auth-wrapper { flex-direction: column; } .auth-aside { padding: 20px 30px; min-width: unset; order: 2; } .auth-main { order: 1; padding: 30px 20px; } .toggle-btn-group { flex-direction: row; } .form-row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="back-link">
-        <a href="index.html">
-            <i class="fa-solid fa-arrow-left"></i> Back
-        </a>
+        <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back</a>
     </div>
 
     <div class="auth-wrapper">
-        <!-- LEFT PANEL - TOGGLE BUTTONS -->
         <div class="auth-aside">
             <h2>Welcome to<br>NagrikNetra</h2>
             <div class="toggle-btn-group">
@@ -409,15 +75,11 @@
             </div>
         </div>
 
-        <!-- RIGHT PANEL - FORMS -->
         <div class="auth-main">
             
-            <!-- LOGIN FORM -->
             <div id="login" class="auth-form active">
                 <div class="auth-header">
-                    <div class="auth-header-icon">
-                        <i class="fa-solid fa-user-shield"></i>
-                    </div>
+                    <div class="auth-header-icon"><i class="fa-solid fa-user-shield"></i></div>
                     <h3>Welcome Back</h3>
                     <p>Login to your account</p>
                 </div>
@@ -431,25 +93,21 @@
                         <label for="loginEmail">Email Address</label>
                         <input type="email" id="loginEmail" placeholder="your.email@example.com" required>
                     </div>
-
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
                         <input type="password" id="loginPassword" placeholder="Enter your password" required>
                     </div>
-
                     <div class="remember-forgot">
                         <label style="display: flex; align-items: center; gap: 6px; font-weight: 400;">
                             <input type="checkbox" id="remember"> Remember me
                         </label>
                         <a href="#">Forgot Password?</a>
                     </div>
-
                     <button type="submit" class="btn-submit">
                         <i class="fa-solid fa-sign-in-alt"></i> Login
                     </button>
-
+                    
                     <div class="social-divider">OR</div>
-
                     <div class="social-login">
                         <button type="button" class="btn-social btn-google" onclick="loginWithGoogle(event)">
                             <i class="fa-brands fa-google"></i> Google
@@ -461,22 +119,19 @@
                 </form>
 
                 <p style="text-align: center; color: #666; margin-top: 20px; font-size: 0.9rem;">
-                    Don't have an account? <a href="#" onclick="switchForm('signup'); return false;" style="color: #1a237e; font-weight: 600; text-decoration: none;">Create one</a>
+                    Don't have an account? <a href="#" onclick="switchForm('signup'); return false;" style="color: #1a237e; font-weight: 600;">Create one</a>
                 </p>
             </div>
 
-            <!-- SIGNUP FORM -->
             <div id="signup" class="auth-form">
                 <div class="auth-header">
-                    <div class="auth-header-icon">
-                        <i class="fa-solid fa-user-plus"></i>
-                    </div>
+                    <div class="auth-header-icon"><i class="fa-solid fa-user-plus"></i></div>
                     <h3>Create Account</h3>
                     <p>Join NagrikNetra today</p>
                 </div>
 
                 <div class="success-message" id="signupSuccess">
-                    <i class="fa-solid fa-check-circle"></i> Account created! Redirecting...
+                    <i class="fa-solid fa-check-circle"></i> Account created successfully! Redirecting...
                 </div>
 
                 <form onsubmit="handleSignup(event)">
@@ -490,77 +145,45 @@
                             <input type="text" id="lastName" placeholder="Doe" required>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="signupEmail">Email Address</label>
                         <input type="email" id="signupEmail" placeholder="your.email@example.com" required>
                     </div>
-
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
                         <input type="tel" id="phone" placeholder="+91 98765 43210" required>
                     </div>
-
                     <div class="form-group">
                         <label for="state">State/Union Territory</label>
                         <select id="state" required>
                             <option value="">Select your state</option>
-                            <option value="andhra">Andhra Pradesh</option>
-                            <option value="arunachal">Arunachal Pradesh</option>
-                            <option value="assam">Assam</option>
-                            <option value="bihar">Bihar</option>
-                            <option value="chhattisgarh">Chhattisgarh</option>
                             <option value="delhi">Delhi</option>
-                            <option value="goa">Goa</option>
-                            <option value="gujarati">Gujarat</option>
-                            <option value="haryana">Haryana</option>
-                            <option value="himachal">Himachal Pradesh</option>
                             <option value="jharkhand">Jharkhand</option>
-                            <option value="karnataka">Karnataka</option>
-                            <option value="kerala">Kerala</option>
                             <option value="madhya">Madhya Pradesh</option>
                             <option value="maharashtra">Maharashtra</option>
-                            <option value="manipur">Manipur</option>
-                            <option value="meghalaya">Meghalaya</option>
-                            <option value="mizoram">Mizoram</option>
-                            <option value="nagaland">Nagaland</option>
-                            <option value="odisha">Odisha</option>
-                            <option value="punjab">Punjab</option>
-                            <option value="rajasthan">Rajasthan</option>
-                            <option value="sikkim">Sikkim</option>
-                            <option value="tamil">Tamil Nadu</option>
-                            <option value="telangana">Telangana</option>
-                            <option value="tripura">Tripura</option>
-                            <option value="uttar">Uttar Pradesh</option>
-                            <option value="uttarakhand">Uttarakhand</option>
-                            <option value="west">West Bengal</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="signupPassword">Password</label>
                         <input type="password" id="signupPassword" placeholder="Min 8 characters" required>
                     </div>
-
                     <div class="form-group">
                         <label for="confirmPassword">Confirm Password</label>
                         <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
                     </div>
-
                     <div class="terms-checkbox">
                         <input type="checkbox" id="terms" required>
                         <label for="terms">
                             I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
                         </label>
                     </div>
-
                     <button type="submit" class="btn-submit">
                         <i class="fa-solid fa-user-plus"></i> Create Account
                     </button>
                 </form>
 
                 <p style="text-align: center; color: #666; margin-top: 20px; font-size: 0.9rem;">
-                    Already have an account? <a href="#" onclick="switchForm('login'); return false;" style="color: #1a237e; font-weight: 600; text-decoration: none;">Login here</a>
+                    Already have an account? <a href="#" onclick="switchForm('login'); return false;" style="color: #1a237e; font-weight: 600;">Login here</a>
                 </p>
             </div>
 
@@ -568,7 +191,7 @@
     </div>
 
     <script>
-        // Switch between login and signup forms
+        // Form Switcher Logic
         function switchForm(formType) {
             const loginForm = document.getElementById('login');
             const signupForm = document.getElementById('signup');
@@ -588,157 +211,105 @@
             }
         }
 
-        // Handle Login
-        function handleLogin(event) {
+        // Login Logic
+        async function handleLogin(event) {
             event.preventDefault();
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
-            
-            if (email && password) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(email)) {
-                    alert('Please enter a valid email address');
-                    return;
+
+            try {
+                const response = await fetch('http://localhost:3000/user/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, password: password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Save info to browser storage
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('userName', data.user.name);
+                    localStorage.setItem('userEmail', data.user.email);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    
+                    document.getElementById('loginSuccess').style.display = 'block';
+                    
+                    // Go to index.html after 1.5 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    alert('Login Failed: ' + data.msg);
                 }
-                
-                if (password.length < 6) {
-                    alert('Password must be at least 6 characters long');
-                    return;
-                }
-                
-                // Store user data in the correct format
-                const userData = {
-                    email: email,
-                    name: email.split('@')[0],
-                    loginTime: new Date().toISOString()
-                };
-                localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
-                localStorage.setItem('userEmail', email);
-                localStorage.setItem('isLoggedIn', 'true');
-                
-                const successMsg = document.getElementById('loginSuccess');
-                successMsg.style.display = 'block';
-                
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1500);
+            } catch (error) {
+                console.error('Login Error:', error);
+                alert('Connection Error. Make sure your server (node server.js) is running.');
             }
         }
 
-        // Handle Signup
-        function handleSignup(event) {
+        // Signup Logic
+        async function handleSignup(event) {
             event.preventDefault();
             
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const email = document.getElementById('signupEmail').value;
-            const phone = document.getElementById('phone').value;
-            const state = document.getElementById('state').value;
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const terms = document.getElementById('terms').checked;
-
-            if (!firstName || !lastName || !email || !phone || !state || !password || !confirmPassword) {
-                alert('Please fill all fields');
-                return;
-            }
-
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address');
-                return;
-            }
-
-            const phoneRegex = /^[0-9]{10}$/;
-            if (!phoneRegex.test(phone.replace(/[^\d]/g, ''))) {
-                alert('Please enter a valid 10-digit phone number');
-                return;
-            }
-
-            if (password.length < 8) {
-                alert('Password must be at least 8 characters long');
-                return;
-            }
-
+            
             if (password !== confirmPassword) {
-                alert('Passwords do not match');
+                alert('Passwords do not match!');
                 return;
             }
 
-            if (!terms) {
-                alert('Please accept the terms and conditions');
-                return;
+            const fullName = firstName + " " + lastName;
+
+            try {
+                const response = await fetch('http://localhost:3000/user/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        name: fullName, 
+                        email: email, 
+                        password: password 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Save info to browser storage
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('userName', fullName);
+                    localStorage.setItem('userEmail', email);
+                    localStorage.setItem('isLoggedIn', 'true');
+
+                    document.getElementById('signupSuccess').style.display = 'block';
+
+                    // Go to index.html after 1.5 seconds
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    alert('Signup Failed: ' + data.msg);
+                }
+            } catch (error) {
+                console.error('Signup Error:', error);
+                alert('Connection Error. Make sure your server (node server.js) is running.');
             }
-
-            // Store user data in the correct format
-            const userData = {
-                email: email,
-                name: firstName + ' ' + lastName,
-                firstName: firstName,
-                lastName: lastName,
-                phone: phone,
-                state: state,
-                signupTime: new Date().toISOString()
-            };
-            localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
-            localStorage.setItem('userEmail', email);
-            localStorage.setItem('userName', firstName + ' ' + lastName);
-            localStorage.setItem('isLoggedIn', 'true');
-
-            const successMsg = document.getElementById('signupSuccess');
-            successMsg.style.display = 'block';
-
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
         }
 
-        // Google Login
+        // Placeholder for Social Logins
         function loginWithGoogle(event) {
             event.preventDefault();
-            
-            // Simulate Google OAuth (in production, integrate real Google OAuth)
-            const userData = {
-                email: 'user@gmail.com',
-                name: 'Google User',
-                provider: 'google',
-                loginTime: new Date().toISOString(),
-                avatar: 'https://via.placeholder.com/40'
-            };
-
-            localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
-            localStorage.setItem('userEmail', userData.email);
-            localStorage.setItem('isLoggedIn', 'true');
-
-            alert('Google login successful! Redirecting...');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
+            alert('Google login is not connected yet.');
         }
 
-        // GitHub Login
         function loginWithGitHub(event) {
             event.preventDefault();
-
-            // Simulate GitHub OAuth (in production, integrate real GitHub OAuth)
-            const userData = {
-                email: 'user@github.com',
-                name: 'GitHub User',
-                provider: 'github',
-                loginTime: new Date().toISOString(),
-                avatar: 'https://via.placeholder.com/40'
-            };
-
-            localStorage.setItem('nagrikNetraUser', JSON.stringify(userData));
-            localStorage.setItem('userEmail', userData.email);
-            localStorage.setItem('isLoggedIn', 'true');
-
-            alert('GitHub login successful! Redirecting...');
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1000);
+            alert('GitHub login is not connected yet.');
         }
     </script>
-
 </body>
 </html>

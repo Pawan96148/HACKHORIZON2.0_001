@@ -56,13 +56,43 @@
 
     <script src="../../shared/js/form-utils.js"></script>
     <script>
-        // Minimal behavior for the demo sign-up page
+        // API Call setup for Registration
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('signupForm');
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Sign up submitted (demo). Redirecting to login.');
-                window.location.href = 'login.html';
+            
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Page reload hone se rokega
+
+                // Form se data nikalna
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    // Backend par POST request bhejna
+                    const response = await fetch('http://localhost:3000/user/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name, email, password }), 
+                    });
+
+                    // Response read karna
+                    const data = await response.json();
+
+                    if (response.ok) { 
+                        // Agar sab theek raha aur data database mein chala gaya
+                        alert('Account created successfully! Redirecting to login...');
+                        window.location.href = 'login.html'; 
+                    } else {
+                        // Agar koi error aaya (jaise email already exists)
+                        alert('Error: ' + data.msg); 
+                    }
+                } catch (error) {
+                    console.error("Connection error:", error);
+                    alert("Server se connect nahi ho paaya. Kya backend chalu hai?");
+                }
             });
         });
     </script>
