@@ -81,10 +81,14 @@
     </div>
 
     <script src="../../shared/js/form-utils.js"></script>
-    <script>
-        // Determine backend base for OAuth endpoints. Falls back to localhost:3000.
-        window.BACKEND_BASE = window.BACKEND_BASE || (location.origin && location.origin !== 'null' ? location.origin : 'http://localhost:3000');
-    </script>
+<script>
+  // Detect environment automatically
+  window.BACKEND_BASE =
+    window.location.hostname === "localhost"
+      ? "http://localhost:3000"
+      : "https://nagriknetra-api.onrender.com";
+</script>
+
     <script src="login.js"></script>
 </body>
 </html>

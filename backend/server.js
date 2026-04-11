@@ -4,7 +4,7 @@ const app = express();
 
 require('dotenv').config();
 
-const db= require('./db');
+const db = require('./config/db');
 
 //Middleware
 const bodyParser=require('body-parser');
@@ -16,6 +16,14 @@ app.get('/', (req, res) => {
 });
 
 
+//import the router file
+
+// const personRoutes = require('./routes/personRoutes');
+const userRoutes = require('./routes/userRoutes');
+
+//use the router
+// app.use('/person',personRoutes);
+app.use('/user',userRoutes);
 
 const PORT=process.env.PORT || 3000;
 
