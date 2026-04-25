@@ -132,7 +132,21 @@ body.standalone-chat {
     border-radius: 8px;
     cursor: pointer;
 }
+#file-upload {
+background: #1a237e;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
 
+#file-upload:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
 .disclaimer {
     text-align: center;
     font-size: 0.75rem;

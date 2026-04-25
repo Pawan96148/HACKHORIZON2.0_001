@@ -8,9 +8,9 @@ const db = require('./config/db');
 
 
 
+
 //Middleware
-const bodyParser=require('body-parser');
-app.use(bodyParser.json()); // req.bodynet
+app.use(express.json());// req.bodynet
 
 const cors = require('cors');
 
@@ -26,10 +26,13 @@ app.get('/', (req, res) => {
 
 // const personRoutes = require('./routes/personRoutes');
 const userRoutes = require('./routes/userRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 
 //use the router
 // app.use('/person',personRoutes);
 app.use('/user',userRoutes);
+app.use('/ai',aiRoutes);
+
 
 const PORT=process.env.PORT || 3000;
 
@@ -38,3 +41,7 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});

@@ -281,6 +281,11 @@
             font-size: 14px;
             line-height: 1.6;
         }
+
+        .btn-language {
+            outline: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -302,7 +307,7 @@
         </div>
 
         <div class="nav-buttons">
-            <select id="language-selector" class="btn-language" style="outline: none; cursor: pointer;">
+            <select id="language-selector" class="btn-language" title="Select Language">
                 <option value="en">English</option>
                 <option value="hi">हिन्दी (Hindi)</option>
                 <option value="bn">বাংলা (Bengali)</option>
@@ -314,13 +319,13 @@
                 <button class="btn-login" id="btn-login" onclick="window.location.href='auth.html'">Login</button>
                 <button class="btn-signup" id="btn-signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
             </div>
-            <div id="user-menu" class="user-menu" style="display: none;">
+            <div id="user-menu" class="user-menu">
                 <button class="btn-user-profile" id="user-profile-btn"><i class="fa-solid fa-user-circle"></i> <span id="user-name">User</span> <i class="fa-solid fa-chevron-down"></i></button>
                 <div class="dropdown-menu" id="dropdown-menu">
                     <a href="#" onclick="viewProfile(event)"><i class="fa-solid fa-id-card"></i> My Profile</a>
                     <a href="#" onclick="viewSavedDocs(event)"><i class="fa-solid fa-bookmark"></i> Saved Documents</a>
                     <a href="#" onclick="viewHistory(event)"><i class="fa-solid fa-history"></i> History</a>
-                    <hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">
+                    <hr>
                     <a href="#" onclick="logout(event)"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
@@ -354,7 +359,7 @@
             <!-- Documents will be inserted here by JavaScript -->
         </div>
 
-        <div id="emptyState" class="empty-state" style="display: none;">
+        <div id="emptyState" class="empty-state">
             <i class="fa-solid fa-file-circle-question"></i>
             <h3>No documents found</h3>
             <p>Try a different search term or category</p>
@@ -370,6 +375,56 @@
     </div>
 
     <script>
+        // --- 1. MULTILINGUAL DICTIONARY & PERSISTENCE ---
+        const translations = {
+            en: {
+                nav_home: "Home", nav_guidance: "Legal Guidance", nav_docs: "Documents", nav_ask: "Ask NagrikNetra"
+            },
+            hi: {
+                nav_home: "होम", nav_guidance: "कानूनी मार्गदर्शन", nav_docs: "दस्तावेज़", nav_ask: "नागरिकनेत्र से पूछें"
+            },
+            bn: {
+                nav_home: "হোম", nav_guidance: "আইনি নির্দেশিকা", nav_docs: "নথিপত্র", nav_ask: "নাগরিকনেত্রকে জিজ্ঞাসা করুন"
+            },
+            te: {
+                nav_home: "హోమ్", nav_guidance: "న్యాయ మార్గదర్శకత్వం", nav_docs: "పత్రాలు", nav_ask: "నాగ్రిక్‌నేత్రను అడగండి"
+            },
+            ta: {
+                nav_home: "முகப்பு", nav_guidance: "சட்ட வழிகாட்டுதல்", nav_docs: "ஆவணங்கள்", nav_ask: "நாக்ரிக்நேத்ராவிடம் கேளுங்கள்"
+            },
+            gu: {
+                nav_home: "હોમ", nav_guidance: "કાનૂની માર્ગદર્શન", nav_docs: "દસ્તાવેજો", nav_ask: "નાગરિકનેત્રને પૂછો"
+            }
+        };
+
+        const languageSelector = document.getElementById('language-selector');
+
+        function applyLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+        }
+
+        if (languageSelector) {
+            // Load saved language on startup
+            const savedLanguage = localStorage.getItem('preferredLanguage');
+            if (savedLanguage) {
+                languageSelector.value = savedLanguage;
+                applyLanguage(savedLanguage);
+            }
+
+            // Save language when changed
+            languageSelector.addEventListener('change', (event) => {
+                const selectedLang = event.target.value;
+                localStorage.setItem('preferredLanguage', selectedLang);
+                applyLanguage(selectedLang);
+            });
+        }
+
         // Document database
         const documents = [
             {
@@ -1220,8 +1275,6 @@ Name: ________________
         window.logout = function(event) {
             event.preventDefault();
             localStorage.removeItem('nagrikNetraUser');
-            alert('You have been logged out successfully!');
-            checkAuthStatus();
             window.location.href = 'index.html';
         }
 

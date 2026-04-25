@@ -128,62 +128,289 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelCameraBtn = document.getElementById('cancel-camera-btn'), captureBtn = document.getElementById('capture-btn'), retakeBtn = document.getElementById('retake-btn');
     const videoElement = document.getElementById('camera-stream'), canvasElement = document.getElementById('snapshot-canvas');
     let cameraStream = null;
+    let capturedFile = null;
 
-    browseBtn.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', function() {
-        if (this.files.length > 0) {
-            fileNameDisplay.innerText = "Selected: " + this.files[0].name;
-            analyzeBtn.style.display = 'block';
+    if (browseBtn && fileInput) {
+        browseBtn.addEventListener('click', () => fileInput.click());
+    }
+    function showSelectedFile(file, prefix = "Selected") {
+        if (fileNameDisplay && file) {
+            fileNameDisplay.innerText = `${prefix}: ${file.name}`;
+            fileNameDisplay.style.display = 'block';
         }
-    });
+        if (analyzeBtn) {
+            analyzeBtn.style.display = file ? 'block' : 'none';
+        }
+    }
 
-    function stopCamera() { if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; } }
+    function clearSelectedFile() {
+        capturedFile = null;
+        if (fileInput) {
+            fileInput.value = '';
+        }
+        if (fileNameDisplay) {
+            fileNameDisplay.innerText = '';
+            fileNameDisplay.style.display = 'none';
+        }
+        if (analyzeBtn) {
+            analyzeBtn.style.display = 'none';
+        }
+    }
 
-    openCameraBtn.addEventListener('click', async () => {
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                capturedFile = null;
+                showSelectedFile(this.files[0]);
+            }
+        });
+    }
+
+    function stopCamera() {
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => {
+                try {
+                    track.stop();
+                } catch (e) {
+                    console.warn('Error stopping camera track:', e);
+                }
+            });
+            cameraStream = null;
+        }
+        if (videoElement) {
+            videoElement.srcObject = null;
+            videoElement.pause();
+        }
+    }
+
+    async function startCamera() {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            alert("Camera is not supported in your browser. Please use Chrome, Firefox, Safari or Edge.");
+            return false;
+        }
+
         try {
-            cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+            stopCamera();
+
+            const constraints = {
+                video: {
+                    facingMode: { ideal: 'environment' },
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                },
+                audio: false
+            };
+
+            cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+            
+            // Set srcObject before changing display
             videoElement.srcObject = cameraStream;
-            uploadOptions.style.display = 'none'; cameraUI.style.display = 'flex';
-            videoElement.style.display = 'block'; canvasElement.style.display = 'none';
-            captureBtn.style.display = 'block'; retakeBtn.style.display = 'none'; analyzeBtn.style.display = 'none';
-        } catch (err) { alert("Camera blocked. Please use Localhost/HTTPS to test camera."); }
-    });
+            
+            // Update UI display states
+            uploadOptions.style.display = 'none';
+            cameraUI.style.display = 'flex';
+            videoElement.style.display = 'block';
+            canvasElement.style.display = 'none';
+            captureBtn.style.display = 'block';
+            retakeBtn.style.display = 'none';
+            if (analyzeBtn) {
+                analyzeBtn.style.display = 'none';
+            }
 
-    cancelCameraBtn.addEventListener('click', () => {
-        stopCamera(); cameraUI.style.display = 'none'; uploadOptions.style.display = 'block';
-        if (fileInput.files.length > 0) analyzeBtn.style.display = 'block';
-    });
+            // Wait for video to be ready before playing
+            return new Promise((resolve, reject) => {
+                const videoReadyHandler = () => {
+                    videoElement.removeEventListener('loadedmetadata', videoReadyHandler);
+                    videoElement.play().then(() => {
+                        console.log('Camera started successfully');
+                        resolve(true);
+                    }).catch(error => {
+                        console.error('Video playback failed:', error);
+                        reject(error);
+                    });
+                };
 
-    captureBtn.addEventListener('click', () => {
-        canvasElement.width = videoElement.videoWidth; canvasElement.height = videoElement.videoHeight;
-        canvasElement.getContext('2d').drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
-        stopCamera();
-        videoElement.style.display = 'none'; canvasElement.style.display = 'block';
-        captureBtn.style.display = 'none'; retakeBtn.style.display = 'block'; analyzeBtn.style.display = 'block';
-    });
+                videoElement.addEventListener('loadedmetadata', videoReadyHandler);
+                
+                // Timeout fallback in case loadedmetadata doesn't fire
+                setTimeout(() => {
+                    videoElement.removeEventListener('loadedmetadata', videoReadyHandler);
+                    videoElement.play().then(() => {
+                        console.log('Camera started (timeout)');
+                        resolve(true);
+                    }).catch(reject);
+                }, 2000);
+            });
+        } catch (error) {
+            console.error('Camera access error:', error);
+            if (error.name === 'NotAllowedError') {
+                alert('Camera permission was denied. Please allow camera access in your browser settings.');
+            } else if (error.name === 'NotFoundError') {
+                alert('No camera device found on this device.');
+            } else if (error.name === 'SecurityError') {
+                alert('Camera access requires HTTPS or localhost.');
+            } else {
+                alert('Camera error: ' + (error.message || 'Unable to access camera'));
+            }
+            return false;
+        }
+    }
 
-    retakeBtn.addEventListener('click', () => openCameraBtn.click());
+    function setCapturedFile(blob) {
+        const fileName = `camera-capture-${Date.now()}.png`;
+        const snapshot = new File([blob], fileName, { type: blob.type || 'image/png' });
+        capturedFile = snapshot;
 
-    analyzeBtn.addEventListener('click', () => {
+        if (fileInput) {
+            const transfer = new DataTransfer();
+            transfer.items.add(snapshot);
+            fileInput.files = transfer.files;
+        }
+
+        showSelectedFile(snapshot, "Captured");
+    }
+
+    if (openCameraBtn && uploadOptions && cameraUI && videoElement && canvasElement && captureBtn && retakeBtn && analyzeBtn) {
+        openCameraBtn.addEventListener('click', async () => {
+            try {
+                await startCamera();
+            } catch (err) {
+                console.error('Camera access failed:', err);
+                alert("Unable to open the camera. Allow camera permission and run this page on localhost or HTTPS.");
+            }
+        });
+    }
+
+    if (cancelCameraBtn && cameraUI && uploadOptions) {
+        cancelCameraBtn.addEventListener('click', () => {
+            stopCamera();
+            cameraUI.style.display = 'none';
+            uploadOptions.style.display = 'block';
+            videoElement.style.display = 'block';
+            canvasElement.style.display = 'none';
+            captureBtn.style.display = 'block';
+            retakeBtn.style.display = 'none';
+            if (fileInput && fileInput.files.length > 0) {
+                showSelectedFile(fileInput.files[0], capturedFile ? "Captured" : "Selected");
+            }
+        });
+    }
+
+    if (captureBtn && canvasElement && videoElement && retakeBtn && analyzeBtn) {
+        captureBtn.addEventListener('click', () => {
+            const frameWidth = videoElement.videoWidth || 1280;
+            const frameHeight = videoElement.videoHeight || 720;
+
+            if (!frameWidth || !frameHeight) {
+                alert("Camera is still loading. Please wait a moment and try again.");
+                return;
+            }
+
+            canvasElement.width = frameWidth;
+            canvasElement.height = frameHeight;
+            canvasElement.getContext('2d').drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+            stopCamera();
+            videoElement.style.display = 'none';
+            canvasElement.style.display = 'block';
+            captureBtn.style.display = 'none';
+            retakeBtn.style.display = 'block';
+
+            canvasElement.toBlob((blob) => {
+                if (!blob) {
+                    alert("Could not capture the image. Please try again.");
+                    return;
+                }
+                setCapturedFile(blob);
+            }, 'image/png');
+        });
+    }
+
+    if (retakeBtn && openCameraBtn) {
+        retakeBtn.addEventListener('click', async () => {
+            clearSelectedFile();
+            try {
+                await startCamera();
+            } catch (err) {
+                console.error('Camera restart failed:', err);
+                alert("Unable to restart the camera. Please try again.");
+            }
+        });
+    }
+    
+
+if (analyzeBtn) {
+    analyzeBtn.addEventListener('click', async () => {
+        const selectedFile = capturedFile || (fileInput && fileInput.files[0]);
+
+        if (!selectedFile) {
+            alert("Please upload or capture a document first.");
+            return;
+        }
+
         const originalHTML = analyzeBtn.innerHTML;
-        analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
-        setTimeout(() => { alert("Document sent to AI!"); analyzeBtn.innerHTML = originalHTML; }, 1500);
+        analyzeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Extracting & Analyzing...';
+
+        try {
+            // 🧠 STEP 1: OCR
+            const result = await Tesseract.recognize(
+                selectedFile,
+                "eng+hin"
+            );
+
+            const extractedText = result.data.text;
+
+            console.log("EXTRACTED TEXT:", extractedText); // 🔥 DEBUG
+
+            if (!extractedText.trim()) {
+                alert("⚠️ No text detected in document.");
+                return;
+            }
+
+            // 🚀 STEP 2: Send to Backend
+            const response = await fetch("http://localhost:3000/ai/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: extractedText })
+            });
+
+            if (!response.ok) {
+                throw new Error("Backend not responding");
+            }
+
+            const data = await response.json();
+
+            // 🎯 STEP 3: Show Result (better UI)
+            alert("🤖 AI Analysis:\n\n" + data.reply);
+
+        } catch (err) {
+            console.error("FULL ERROR:", err);
+            alert("❌ Error: " + err.message);
+        }
+
+        analyzeBtn.innerHTML = originalHTML;
     });
+}
+
+    window.addEventListener('beforeunload', stopCamera);
 
     // --- 4. Authentication & User Menu Logic ---
     
     // Check if user is logged in
     function checkAuthStatus() {
-        const user = JSON.parse(localStorage.getItem('nagrikNetraUser') || 'null');
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const userName = localStorage.getItem('userName');
+        const userEmail = localStorage.getItem('userEmail');
         const authButtons = document.getElementById('auth-buttons');
         const userMenu = document.getElementById('user-menu');
-        const userName = document.getElementById('user-name');
+        const userNameElement = document.getElementById('user-name');
         
-        if (user && user.email) {
+        if (isLoggedIn && userName && userEmail) {
             // User is logged in
             if (authButtons) authButtons.style.display = 'none';
             if (userMenu) userMenu.style.display = 'block';
-            if (userName) userName.textContent = user.name || user.email.split('@')[0];
+            if (userNameElement) userNameElement.textContent = userName;
         } else {
             // User not logged in
             if (authButtons) authButtons.style.display = 'flex';
@@ -202,9 +429,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Logout function
     window.logout = function(event) {
         event.preventDefault();
-        localStorage.removeItem('nagrikNetraUser');
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('isLoggedIn');
         alert('You have been logged out successfully!');
-        checkAuthStatus();
         window.location.href = 'index.html';
     }
 
@@ -260,3 +489,4 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+

@@ -244,7 +244,7 @@
         </div>
 
         <div class="nav-buttons">
-            <select id="language-selector" class="btn-language" style="outline: none; cursor: pointer;">
+            <select id="language-selector" class="btn-language" title="Select Language">
                 <option value="en">English</option>
                 <option value="hi">हिन्दी (Hindi)</option>
                 <option value="bn">বাংলা (Bengali)</option>
@@ -256,13 +256,13 @@
                 <button class="btn-login" id="btn-login" onclick="window.location.href='auth.html'">Login</button>
                 <button class="btn-signup" id="btn-signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
             </div>
-            <div id="user-menu" class="user-menu" style="display: none;">
+            <div id="user-menu" class="user-menu">
                 <button class="btn-user-profile" id="user-profile-btn"><i class="fa-solid fa-user-circle"></i> <span id="user-name">User</span> <i class="fa-solid fa-chevron-down"></i></button>
                 <div class="dropdown-menu" id="dropdown-menu">
                     <a href="#" onclick="viewProfile(event)"><i class="fa-solid fa-id-card"></i> My Profile</a>
                     <a href="#" onclick="viewSavedDocs(event)"><i class="fa-solid fa-bookmark"></i> Saved Documents</a>
                     <a href="#" onclick="viewHistory(event)"><i class="fa-solid fa-history"></i> History</a>
-                    <hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">
+                    <hr>
                     <a href="#" onclick="logout(event)"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
@@ -324,8 +324,8 @@
         </div>
 
         <!-- Land Record Details -->
-        <div id="land-details" class="detailed-section" style="display: none;">
-            <h3><i class="fa-solid fa-map" style="margin-right: 10px; color: #1d4ed8;"></i>Land Record Rights - Complete Guide</h3>
+        <div id="land-details" class="detailed-section">
+            <h3><i class="fa-solid fa-map"></i>Land Record Rights - Complete Guide</h3>
             <p>Land records are official documents that contain information about your property. Understanding these rights helps you protect your property and resolve disputes.</p>
 
             <div class="steps-list">
@@ -359,13 +359,13 @@
                 </div>
             </div>
 
-            <h4 style="margin-top: 25px; color: #1e293b;">Important Documents Required:</h4>
+            <h4>Important Documents Required:</h4>
             <p>• Original property deed or sale agreement | • Identity proof | • Address proof | • Affidavit (if required) | • Existing land records</p>
         </div>
 
         <!-- RTI Details -->
-        <div id="rti-details" class="detailed-section" style="display: none;">
-            <h3><i class="fa-solid fa-file-lines" style="margin-right: 10px; color: #1d4ed8;"></i>RTI - Right to Information Guide</h3>
+        <div id="rti-details" class="detailed-section">
+            <h3><i class="fa-solid fa-file-lines"></i>RTI - Right to Information Guide</h3>
             <p>The Right to Information Act (2005) gives you the right to access information held by the government. This includes documents, decisions, and records.</p>
 
             <div class="steps-list">
@@ -399,16 +399,16 @@
                 </div>
             </div>
 
-            <h4 style="margin-top: 25px; color: #1e293b;">What You CAN Request:</h4>
+            <h4>What You CAN Request:</h4>
             <p>• Government records and decisions | • Budget and spending details | • Policy information | • Meeting minutes | • Health and safety records</p>
 
-            <h4 style="margin-top: 15px; color: #1e293b;">What You CANNOT Request:</h4>
+            <h4>What You CANNOT Request:</h4>
             <p>• Personal information of others | • Information affecting national security | • Cabinet papers | • Commercial secrets</p>
         </div>
 
         <!-- Legal Notice Details -->
-        <div id="notice-details" class="detailed-section" style="display: none;">
-            <h3><i class="fa-solid fa-envelope-open-text" style="margin-right: 10px; color: #1d4ed8;"></i>Legal Notice - Step-by-Step Guide</h3>
+        <div id="notice-details" class="detailed-section">
+            <h3><i class="fa-solid fa-envelope-open-text"></i>Legal Notice - Step-by-Step Guide</h3>
             <p>A legal notice is a formal communication used to warn someone about potential legal action. It's often the first step before filing a lawsuit.</p>
 
             <div class="steps-list">
@@ -442,13 +442,13 @@
                 </div>
             </div>
 
-            <h4 style="margin-top: 25px; color: #1e293b;">Notice Should Include:</h4>
+            <h4>Notice Should Include:</h4>
             <p>• Your details and occupation | • Defendant's full name and address | • Facts leading to the dispute | • Legal breach committed | • Losses/damages suffered | • Specific action demanded | • Timeline for response (usually 30 days)</p>
         </div>
 
         <!-- File Complaint Details -->
-        <div id="complaint-details" class="detailed-section" style="display: none;">
-            <h3><i class="fa-solid fa-gavel" style="margin-right: 10px; color: #1d4ed8;"></i>How to File a Complaint</h3>
+        <div id="complaint-details" class="detailed-section">
+            <h3><i class="fa-solid fa-gavel"></i>How to File a Complaint</h3>
             <p>Filing a complaint is your right when you face injustice, wrongdoing, or breach of rules by any organization or government agency.</p>
 
             <div class="steps-list">
@@ -484,8 +484,8 @@
         </div>
 
         <!-- Consumer Rights Details -->
-        <div id="consumer-details" class="detailed-section" style="display: none;">
-            <h3><i class="fa-solid fa-shield" style="margin-right: 10px; color: #1d4ed8;"></i>Consumer Rights Protection</h3>
+        <div id="consumer-details" class="detailed-section">
+            <h3><i class="fa-solid fa-shield"></i>Consumer Rights Protection</h3>
             <p>As a consumer, you have rights to quality products, fair pricing, accurate information, safety, and grievance redressal.</p>
 
             <div class="steps-list">
@@ -519,13 +519,13 @@
                 </div>
             </div>
 
-            <h4 style="margin-top: 25px; color: #1e293b;">Filing Consumer Complaint:</h4>
+            <h4>Filing Consumer Complaint:</h4>
             <p>You can file at District Consumer Commission (for claims up to ₹1 crore), State Commission, or National Commission depending on claim value.</p>
         </div>
 
         <!-- Labour Rights Details -->
-        <div id="labour-details" class="detailed-section" style="display: none;">
-            <h3><i class="fa-solid fa-briefcase" style="margin-right: 10px; color: #1d4ed8;"></i>Labour Rights & Workplace Protection</h3>
+        <div id="labour-details" class="detailed-section">
+            <h3><i class="fa-solid fa-briefcase"></i>Labour Rights & Workplace Protection</h3>
             <p>Every worker has fundamental rights including fair wages, reasonable working hours, safe working conditions, and protection from exploitation.</p>
 
             <div class="steps-list">
@@ -562,7 +562,7 @@
 
         <!-- FAQ Section -->
         <div class="faq-section">
-            <h2 style="margin-bottom: 25px; color: #1e293b;">Frequently Asked Questions</h2>
+            <h2>Frequently Asked Questions</h2>
 
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">

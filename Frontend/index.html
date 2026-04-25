@@ -23,12 +23,12 @@
         <div class="nav-links">
             <a href="index.html" data-i18n="nav_home">Home</a>
             <a href="legalGuidance.html" data-i18n="nav_guidance">Legal Guidance</a>
-            <a href="Document.html" data-i18n="nav_docs">Documents</a>
+            <a href="document.html" data-i18n="nav_docs">Documents</a>
             <a href="ai.html" data-i18n="nav_ask">Ask NagrikNetra</a>
         </div>
 
         <div class="nav-buttons">
-            <select id="language-selector" class="btn-language" style="outline: none; cursor: pointer;">
+            <select id="language-selector" class="btn-language" title="Select Language" >
                 <option value="en">English</option>
                 <option value="hi">हिन्दी (Hindi)</option>
                 <option value="bn">বাংলা (Bengali)</option>
@@ -40,13 +40,13 @@
                 <button class="btn-login" id="btn-login" data-i18n="login" onclick="window.location.href='auth.html'">Login</button>
                 <button class="btn-signup" id="btn-signup" data-i18n="signup" onclick="window.location.href='auth.html?form=signup'">Sign Up</button>
             </div>
-            <div id="user-menu" class="user-menu" style="display: none;">
+            <div id="user-menu" class="user-menu">
                 <button class="btn-user-profile" id="user-profile-btn"><i class="fa-solid fa-user-circle"></i> <span id="user-name">User</span> <i class="fa-solid fa-chevron-down"></i></button>
                 <div class="dropdown-menu" id="dropdown-menu">
                     <a href="#" onclick="viewProfile(event)"><i class="fa-solid fa-id-card"></i> My Profile</a>
                     <a href="#" onclick="viewSavedDocs(event)"><i class="fa-solid fa-bookmark"></i> Saved Documents</a>
                     <a href="#" onclick="viewHistory(event)"><i class="fa-solid fa-history"></i> History</a>
-                    <hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">
+                    <hr>
                     <a href="#" onclick="logout(event)"><i class="fa-solid fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
@@ -61,13 +61,13 @@
                 
                 <div class="suggestion-tags">
                     <button class="tag">Land Record</button>
-                    <a href="rti.html" class="tag" style="text-decoration: none;">RTI Filing</a>
-                    <a href="legalGuidance.html" class="tag" style="text-decoration: none;">Legal Notice</a>
+                    <a href="rti.html" class="tag">RTI Filing</a>
+                    <a href="legalGuidance.html" class="tag">Legal Notice</a>
                 </div>
             </div>
 
             <div class="upload-box-container" id="upload-scan-box">
-                <input type="file" id="file-input" accept="image/*,.pdf" style="display: none;">
+                <input type="file" id="file-input" accept="image/*,.pdf" title="Select a document file">
                 
                 <div class="upload-options" id="upload-options">
                     <i class="fa-solid fa-file-contract"></i>
@@ -78,20 +78,21 @@
                         <button class="btn-secondary" id="browse-btn"><i class="fa-solid fa-folder-open"></i> <span data-i18n="btn_browse">Browse</span></button>
                         <button class="btn-secondary" id="camera-btn"><i class="fa-solid fa-camera"></i> <span data-i18n="btn_camera">Camera</span></button>
                     </div>
+                    <p class="file-name" id="file-name"></p>
                 </div>
 
-                <div class="camera-ui" id="camera-ui" style="display: none;">
-                    <video id="camera-stream" autoplay playsinline></video>
-                    <canvas id="snapshot-canvas" style="display: none;"></canvas>
+                <div class="camera-ui" id="camera-ui">
+                    <video id="camera-stream" autoplay></video>
+                    <canvas id="snapshot-canvas"></canvas>
                     
                     <div class="camera-controls">
                         <button class="btn-danger" id="cancel-camera-btn" data-i18n="btn_cancel">Cancel</button>
                         <button class="btn-success" id="capture-btn"><i class="fa-solid fa-camera"></i> <span data-i18n="btn_capture">Capture</span></button>
-                        <button class="btn-secondary" id="retake-btn" style="display: none;" data-i18n="btn_retake">Retake</button>
+                        <button class="btn-secondary" id="retake-btn" data-i18n="btn_retake">Retake</button>
                     </div>
                 </div>
 
-                <button class="btn-primary" id="analyze-btn" style="display: none; width: 100%; margin-top: 15px;">
+                <button class="btn-primary" id="analyze-btn">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="btn_analyze">Analyze Document</span>
                 </button>
             </div>
@@ -194,65 +195,7 @@
             <p>&copy; 2026 NagrikNetra. All rights reserved. | Made with <i class="fa-solid fa-heart"></i> for Indian Citizens</p>
         </div>
     </footer>
-
-<script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Browser ki memory se check karo ki user logged in hai ya nahi
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            const userName = localStorage.getItem('userName');
-
-            const authButtons = document.getElementById('auth-buttons');
-            const userMenu = document.getElementById('user-menu');
-            const userNameSpan = document.getElementById('user-name');
-            const userProfileBtn = document.getElementById('user-profile-btn');
-            const dropdownMenu = document.getElementById('dropdown-menu');
-
-            // 2. Agar user logged in hai
-            if (isLoggedIn === 'true') {
-                // Login/Signup button chhupa do
-                if (authButtons) authButtons.style.display = 'none';
-                
-                // Profile wala menu dikha do
-                if (userMenu) userMenu.style.display = 'block'; 
-                
-                // User ka First Name set kar do (Taki bada naam UI kharab na kare)
-                if (userName && userNameSpan) {
-                    userNameSpan.innerText = userName.split(' ')[0]; 
-                }
-            }
-
-            // 3. Profile button par click karne se Dropdown khule aur band ho
-            if (userProfileBtn && dropdownMenu) {
-                userProfileBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Page pe aur kahin click hone se rokega
-                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-                });
-            }
-
-            // Kahin aur click karne pe dropdown band ho jaye
-            document.addEventListener('click', () => {
-                if (dropdownMenu) dropdownMenu.style.display = 'none';
-            });
-        });
-
-        // 4. Logout Functionality
-        function logout(event) {
-            if(event) event.preventDefault();
-            
-            // Browser se user ki sari details delete kar do
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userToken');
-            
-            // Page ko refresh kar do (taki wapas Login button aa jaye)
-            window.location.reload();
-        }
-
-        // Baaki buttons ke liye temporary functions taki error na aaye
-        function viewProfile(e) { e.preventDefault(); alert("My Profile module coming soon!"); }
-        function viewSavedDocs(e) { e.preventDefault(); alert("Saved Documents coming soon!"); }
-        function viewHistory(e) { e.preventDefault(); alert("History module coming soon!"); }
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
