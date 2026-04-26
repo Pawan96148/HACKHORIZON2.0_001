@@ -367,13 +367,11 @@ if (analyzeBtn) {
             }
 
             // 🚀 STEP 2: Send to Backend
-            const response = await fetch("http://localhost:3000/ai/chat", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ message: extractedText })
-            });
+            const response = await fetch("https://hackhorizon2-0-001.onrender.com/ai/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: extractedText })
+});
 
             if (!response.ok) {
                 throw new Error("Backend not responding");

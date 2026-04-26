@@ -11,6 +11,7 @@ const db = require('./config/db');
 
 //Middleware
 app.use(express.json());// req.bodynet
+app.use(express.urlencoded({ extended: true }));
 
 const cors = require('cors');
 
