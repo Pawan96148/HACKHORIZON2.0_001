@@ -28,6 +28,8 @@ router.post("/chat", async (req, res) => {
 
         const data = await response.json();
 
+        console.log("Groq API Response:", data);
+
         // ✅ SEND CLEAN RESPONSE
         res.json({
             reply: data.choices?.[0]?.message?.content || "No response"
