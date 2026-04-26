@@ -13,10 +13,14 @@ const db = require('./config/db');
 app.use(express.json());// req.bodynet
 app.use(express.urlencoded({ extended: true }));
 
+// Backend (app.js ya server.js)
 const cors = require('cors');
 
-// Isko apne app.use(bodyParser.json()) ke theek neeche daal do:
-app.use(cors());
+app.use(cors({
+    origin: "*", // Ye har jagah se request allow karega
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 //Routes
 app.get('/', (req, res) => {
   res.send('hey broh😎.... how can i help you????')
